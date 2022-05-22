@@ -4,10 +4,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
-
 
 
 public static class SavingData
@@ -22,44 +22,58 @@ public static class SavingData
 public class GameManager : MonoBehaviourPunCallbacks
 {
     public static GameManager Instance;
-
     [SerializeField] private GameObject inputManager;
 
+    [Header("Audio")]
+    #region Audio
+    [SerializeField] private AudioSource speaker;
+    [SerializeField] private AudioClip gameOverSound;
+    #endregion
+
+    [Header("UI")]
     #region UI
+    [SerializeField] private Text timerText;
+    [SerializeField] private GameObject gamePlayPanel;
+    [SerializeField] private GameObject gameOptionPanel;
     [SerializeField] private GameObject stageClearPanel;
     [SerializeField] private GameObject gameClearPanel;
     [SerializeField] private GameObject gameOverPanel;
     #endregion
 
+
+    #region GameState
     public bool isGameEnd { get; private set; }
-
-
-    private float currentStageClearTime;
+    private float currentStageClearTime = 0;
+    private bool isPause = false;
+    #endregion
 
     void Awake()
     {
-        if (Instance != null)
+        if (Instance == null)
         {
-            if (Instance != this) Destroy(gameObject);
+            Instance = this;
         }
         else
         {
-            Instance = this;
+            Destroy(gameObject);
         }
     }
 
     void Start()
     {
         Setup();
+        PhotonNetwork.MinimalTimeScaleToDispatchInFixedUpdate = 0;
         PhotonNetwork.Instantiate(inputManager.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
     }
 
-
+    //by 상민, stage1일때 timeRecord 기록 초기화
     void Setup()
     {
         print("Stage" + SavingData.presentStageNum + " Start!");
         isGameEnd = false;
+
         currentStageClearTime = 0;
+        if(SavingData.presentStageNum == 1) { SavingData.timeReocrd = "0"; }
 
         if (stageClearPanel != null) { stageClearPanel.SetActive(false); }
         if (gameClearPanel != null) { gameClearPanel.SetActive(false); }
@@ -72,8 +86,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         Cheat.updateCheatState();
         #endregion
 
-        if (!isGameEnd)
+        if (!isGameEnd && !isPause)
         {
+            int minute = (int)currentStageClearTime / 60;
+            int second = (int)currentStageClearTime % 60;
+            timerText.text = $"{minute} : {second}";
             currentStageClearTime += Time.deltaTime;
         }
     }
@@ -104,76 +121,103 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    // by 상민, 다른 클래스에서 GameManager.Instance.GameOver() 호출, 경고음 재생 3초 후에 GameOverPanel 활성화
     public void GameOver()
     {
         if (!isGameEnd)
         {
             print("GameOver");
             isGameEnd = true;
+
+            speaker.loop = false;
+            speaker.PlayOneShot(gameOverSound);
+        
             currentStageClearTime = 0;
             StartCoroutine(CallGameOver());
         }
 
     }
 
-    // by 상민, 플레이어 뒤에서 경찰차 소환 추가 필요
-    // 다른 클래스에서 GameManager.Instance.GameOver() 호출해서 게임 오버 시키면 경찰차 등장 후 @초 후에 GameOverPanel 활성화
+
     public IEnumerator CallStageClear()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
         if (stageClearPanel != null)
         { stageClearPanel.SetActive(true); }
     }
 
     public IEnumerator CallGameClear()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
         if (gameClearPanel != null)
         { gameClearPanel.SetActive(true); }
     }
 
     public IEnumerator CallGameOver()
     {
-        // by 상민, 경찰차 소환 필요
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
         if (gameOverPanel != null)
             gameOverPanel.SetActive(true);
     }
 
+    #region GameFlowControl
+    //by 상민, photonView.RPC() 을 통해 게임에 참가중인 모든 플레이어 함수를 호출
+    //client가 방장일때 && 현재 접속한 플레이어가 2명일 때만 버튼 클릭 가능 (수정 가능)
 
-    // by 상민, 버튼 누른 사람이 방장&&현재 참가자 두명일 때 만 게임 재시작 가능
-    // photonView.RPC 를 이용해 Master, client 모두 RestartStage1Scene() 호출
-    public void Next()
+    public void Pause()
     {
-        SavingData.presentStageNum += 1;
         if (PhotonNetwork.IsMasterClient)
         {
             if (PhotonNetwork.CurrentRoom.PlayerCount == 2 || Cheat.cheatMode)
             {
+                PhotonView photonView = PhotonView.Get(this);
+                photonView.RPC("SyncPause", RpcTarget.All);
+
+            }
+        }
+    }
+
+    public void Resume()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 2 || Cheat.cheatMode)
+            {
+                PhotonView photonView = PhotonView.Get(this);
+                photonView.RPC("SyncResume", RpcTarget.All);
+            }
+        }
+    }
+
+    public void Next()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 2 || Cheat.cheatMode)
+            {
+                SavingData.presentStageNum += 1;
                 PhotonView photonView = PhotonView.Get(this);
                 photonView.RPC("SyncNextStage", RpcTarget.All);
             }
         }
     }
 
-    // by 상민, 버튼 누른 사람이 방장&&현재 참가자 두명일 때 만 게임 재시작 가능
-    // photonView.RPC 를 이용해 Master, client 모두 RestartStage1Scene() 호출
     public void Restart()
     {
         if (PhotonNetwork.IsMasterClient)
         {
             if (PhotonNetwork.CurrentRoom.PlayerCount == 2 || Cheat.cheatMode)
             {
+                speaker.Stop();
                 PhotonView photonView = PhotonView.Get(this);
                 photonView.RPC("SyncRestartStage", RpcTarget.All);
             }
         }
     }
 
-    // by 상민, 버튼 누른 사람이 방장&&현재 참가자 두명일 때 만 게임 재시작 가능
-    // photonView.RPC 를 이용해 Master, client 모두 LeaveGame() 호출
     public void Leave()
     {
+        Time.timeScale = 1;
         SavingData.presentStageNum = 1;
         if (PhotonNetwork.IsMasterClient)
         {
@@ -185,8 +229,26 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    #endregion
 
-    #region ChangeScene
+    #region SyncGamePlay
+    
+    [PunRPC]
+    private void SyncPause()
+    {
+        Time.timeScale = 0;
+        gamePlayPanel.SetActive(false);
+        gameOptionPanel.SetActive(true);
+    }
+
+    [PunRPC]
+    private void SyncResume()
+    {
+        Time.timeScale = 1;
+        gamePlayPanel.SetActive(true);
+        gameOptionPanel.SetActive(false);
+    }
+
     // by 상민, 새로운 씬 로드하기 전 현재 오브젝트 제거
     [PunRPC]
     private void SyncNextStage()

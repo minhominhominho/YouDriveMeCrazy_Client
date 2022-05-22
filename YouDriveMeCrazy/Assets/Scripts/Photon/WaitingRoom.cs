@@ -202,6 +202,7 @@ namespace Photon
                         SavingData.player2Name = "CheatModePlayer1";
                     }
                     SavingData.presentStageNum = 1;
+                    SavingData.timeReocrd = "0";
                     PhotonNetwork.LoadLevel(2);
                 }
                 else
