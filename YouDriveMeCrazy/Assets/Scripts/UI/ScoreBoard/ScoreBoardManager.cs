@@ -25,10 +25,10 @@ public class ScoreBoardManager : MonoBehaviour
             
             PrintScore();
         }));
-
+        
         Scores[] scores = {new Scores(1, "kim", "park", 100)};
         ScoresResDto scoresResDto = new ScoresResDto(scores);
-
+        
         string json = JsonUtility.ToJson(scoresResDto);
         
         Debug.Log(json);
@@ -44,7 +44,7 @@ public class ScoreBoardManager : MonoBehaviour
         {
             Scores score = scoreList[i];
 
-            txt += score.ToString();
+            txt += i + "\t" + score.ToString() + "\n";
         }
         
         scoreText.SetText(txt);
@@ -56,8 +56,9 @@ public class ScoreBoardManager : MonoBehaviour
 
     public void InsertScore()
     {
-        StartCoroutine(Api.Api.InsertScore("Lee", "Choi", 150, scores =>
+        StartCoroutine(Api.Api.InsertScore("Lee", "Choi", "150.5", scores =>
         {
+            
             Debug.Log(scores.ToString());
         }));
     }
