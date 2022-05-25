@@ -61,6 +61,8 @@ public class AuthPage : MonoBehaviour
         Debug.Log(textt);
         if(textt.Equals("true")){
             SceneManager.LoadScene("Title");
+            SavingData.myName = loginUser.email;
+           // Debug.Log(SavingData.myName);
             //게임매니져 변수에 접근해서 저장하기
         }
         
