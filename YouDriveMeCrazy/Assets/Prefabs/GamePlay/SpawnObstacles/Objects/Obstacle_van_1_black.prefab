@@ -363,7 +363,7 @@ GameObject:
   - component: {fileID: 7063874343747256505}
   - component: {fileID: 7587506433969445378}
   - component: {fileID: -3901110282818668924}
-  - component: {fileID: 4709004803559818416}
+  - component: {fileID: 9138790230883078662}
   m_Layer: 0
   m_Name: Obstacle_van_1_black
   m_TagString: Untagged
@@ -417,7 +417,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4709004803559818416
+--- !u!114 &9138790230883078662
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -426,7 +426,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7587506433969445379}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e04cff3b04c98e74486c6eb28480a698, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d1d1fc184e432e4fa271fca562239f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8577840316348508590

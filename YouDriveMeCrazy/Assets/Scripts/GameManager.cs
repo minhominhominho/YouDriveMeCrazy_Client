@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     [Header("UI")]
     #region UI
+    [SerializeField] private KeyCode pauseKey;
     [SerializeField] private Text timerText;
     [SerializeField] private GameObject gamePlayPanel;
     [SerializeField] private GameObject gameOptionPanel;
@@ -92,6 +93,10 @@ public class GameManager : MonoBehaviourPunCallbacks
             int second = (int)currentStageClearTime % 60;
             timerText.text = $"{minute} : {second}";
             currentStageClearTime += Time.deltaTime;
+        }
+
+        if(Input.GetKeyDown(pauseKey)){
+            Pause();
         }
     }
 

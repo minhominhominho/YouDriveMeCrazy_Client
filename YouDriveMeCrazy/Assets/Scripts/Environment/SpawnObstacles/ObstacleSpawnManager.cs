@@ -3,26 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum Obstacles { Empty, Chicken, Doe, Fox, Horse, Man, Bus, BlueCar, Van, Truck }
+public enum ObstacleType { Empty, Idle, Walk, Jump }
 
 public class ObstacleSpawnManager : MonoBehaviour
 {
     // All Obstacle objects
-    public GameObject[] animalPrefabs;
+    public GameObject[] allObstacles;
 
     // The obstacle object to spawn in this area
-    public Obstacles spawnObstacle;
+    public Obstacles obstacleToBeSpawned;
 
     public float timer = 15;
     public float speed = 5;
     public Transform spawnPos;
     public Transform destPos;
+    public bool isKlaxonInteractable;
     private bool isSpawned;
+
 
     private void Start()
     {
-        if (spawnObstacle == Obstacles.Empty)
+        if (obstacleToBeSpawned == Obstacles.Empty)
         {
-            spawnObstacle = (Obstacles)Random.Range(1, System.Enum.GetValues(typeof(Obstacles)).Length);
+            obstacleToBeSpawned = (Obstacles)Random.Range(1, System.Enum.GetValues(typeof(Obstacles)).Length);
         }
     }
 
@@ -32,9 +35,10 @@ public class ObstacleSpawnManager : MonoBehaviour
         if (!isSpawned)
         {
             isSpawned = true;
-            GameObject g = Instantiate(animalPrefabs[(int)spawnObstacle - 1], spawnPos.position, Quaternion.identity);
-            g.GetComponent<ObstacleMovementController>().setObstacle(timer, speed);
-            g.transform.LookAt(destPos.position,transform.up);
+            GameObject g = Instantiate(allObstacles[(int)obstacleToBeSpawned - 1], spawnPos.position, Quaternion.identity);
+
+            g.GetComponent<Obstacle>().setObstacle(speed, isKlaxonInteractable);
+            g.transform.LookAt(destPos.position, transform.up);
         }
     }
 }

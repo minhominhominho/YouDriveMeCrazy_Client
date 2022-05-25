@@ -94,8 +94,8 @@ GameObject:
   - component: {fileID: 1766586324572176179}
   - component: {fileID: 1766586324581147393}
   - component: {fileID: 775971452298961949}
-  - component: {fileID: 6189076042727522490}
   - component: {fileID: 7610594875918365868}
+  - component: {fileID: 3091878431018597503}
   m_Layer: 0
   m_Name: Obstacle_Animal_Fox_01
   m_TagString: Untagged
@@ -161,18 +161,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.058890305, y: 0.20368446, z: 0.30937952}
   m_Center: {x: -0.00038861856, y: 0.10047232, z: 0.010968678}
---- !u!114 &6189076042727522490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1766586324571697513}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e04cff3b04c98e74486c6eb28480a698, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &7610594875918365868
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -189,6 +177,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &3091878431018597503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766586324571697513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d1d1fc184e432e4fa271fca562239f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1766586324571700051
 GameObject:
   m_ObjectHideFlags: 0

@@ -127,8 +127,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1274158269198480763}
   - component: {fileID: 1938070240143601600}
-  - component: {fileID: 8382329250585938751}
   - component: {fileID: 1937129435700294860}
+  - component: {fileID: 7652742525413908794}
   m_Layer: 0
   m_Name: Obstacle_truck_1_black
   m_TagString: Untagged
@@ -169,18 +169,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8382329250585938751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1938070240143601601}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e04cff3b04c98e74486c6eb28480a698, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &1937129435700294860
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -194,6 +182,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.4885688, y: 2.9690032, z: 7.7107596}
   m_Center: {x: 0.036603928, y: 1.5045803, z: -0.64667344}
+--- !u!114 &7652742525413908794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938070240143601601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d1d1fc184e432e4fa271fca562239f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2267116710418040151
 GameObject:
   m_ObjectHideFlags: 0

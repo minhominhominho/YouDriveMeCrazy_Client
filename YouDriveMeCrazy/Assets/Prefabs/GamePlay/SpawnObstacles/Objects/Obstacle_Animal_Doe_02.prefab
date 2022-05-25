@@ -675,8 +675,8 @@ GameObject:
   - component: {fileID: 8857151429765873335}
   - component: {fileID: 8857151429775643107}
   - component: {fileID: 4013655307534714336}
-  - component: {fileID: 4412540901675034428}
   - component: {fileID: -5113430849877788980}
+  - component: {fileID: -5808190704691242827}
   m_Layer: 0
   m_Name: Obstacle_Animal_Doe_02
   m_TagString: Untagged
@@ -740,18 +740,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.112489834, y: 0.36616448, z: 0.3866462}
   m_Center: {x: 0.000013940036, y: 0.18047331, z: 0.04652772}
---- !u!114 &4412540901675034428
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8857151429766120501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e04cff3b04c98e74486c6eb28480a698, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &-5113430849877788980
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -768,6 +756,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-5808190704691242827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8857151429766120501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d1d1fc184e432e4fa271fca562239f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8857151429766168189
 GameObject:
   m_ObjectHideFlags: 0

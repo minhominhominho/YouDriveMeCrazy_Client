@@ -388,7 +388,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2722639484079163208}
   - component: {fileID: 3351542901968313843}
-  - component: {fileID: -3368687725625387214}
+  - component: {fileID: -4138363684952274253}
   m_Layer: 0
   m_Name: Obstacle_bus_1_yellow
   m_TagString: Untagged
@@ -429,7 +429,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-3368687725625387214
+--- !u!114 &-4138363684952274253
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -438,7 +438,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3351542901968313842}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e04cff3b04c98e74486c6eb28480a698, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d1d1fc184e432e4fa271fca562239f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3576660355925060068

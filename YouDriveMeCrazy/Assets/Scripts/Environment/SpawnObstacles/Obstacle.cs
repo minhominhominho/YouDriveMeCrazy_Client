@@ -2,41 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//public enum Obstacles { Empty, Chicken, Doe, Fox, Horse, Man, Bus, BlueCar, Van, Truck }
-public enum ObstacleType { Idle, Walk }
-
+// 이거만 붙여도 동작함(미리 생성해두는 애들에 대해서)
 public class Obstacle : MonoBehaviour
 {
-    // All Obstacle objects
-    public GameObject[] allObstacles;
+    public float speed = 10f;
+    private Transform car;
+    public bool isKlaxonInteractable = false;
+    public float klaxonDistance = 15;
 
-    // The obstacle object to spawn in this area
-    public Obstacles obstacleToBeSpawned;
-    public ObstacleType obstacleType;
 
-    public float timer = 15;
-    public float speed = 5;
-    public Transform spawnPos;
-    public Transform destPos;
-    private bool isSpawned;
-
-    private void Start()
+    void Start()
     {
-        if (obstacleToBeSpawned == Obstacles.Empty)
-        {
-            obstacleToBeSpawned = (Obstacles)Random.Range(1, System.Enum.GetValues(typeof(Obstacles)).Length);
+        // 애니메이션 설정
+        car = CarController.carController.transform;
+    }
+
+    public void setObstacle(float speed, bool isKlaxonInteractable)
+    {
+        this.speed = speed;
+        this.isKlaxonInteractable = isKlaxonInteractable;
+    }
+
+    void Update()
+    {
+        if(!isKlaxonInteractable){
+            transform.position += transform.forward * Time.deltaTime * speed;
+        }
+        else
+       {
+            if(Vector3.Distance(car.position,this.transform.position) < klaxonDistance){
+                if(CarController.carController.isKlaxonPressing){
+                    // 애니메이션 설정
+                    isKlaxonInteractable = false;
+                }
+            }
         }
     }
 
-    public void SpawnRandomAnimal()
+    private void OnCollisionEnter(Collision collision)
     {
-        // ����� ����
-        if (!isSpawned)
+        if (collision.collider.CompareTag("Car"))
         {
-            isSpawned = true;
-            GameObject g = Instantiate(allObstacles[(int)obstacleToBeSpawned - 1], spawnPos.position, Quaternion.identity);
-            g.GetComponent<ObstacleMovementController>().setObstacle(timer, speed);
-            g.transform.LookAt(destPos.position, transform.up);
+            GameManager.Instance.GameOver();
         }
     }
 }

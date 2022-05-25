@@ -404,7 +404,7 @@ GameObject:
   - component: {fileID: 2423469496237480362}
   - component: {fileID: 7505391320367205252}
   - component: {fileID: 1498384315652061786}
-  - component: {fileID: 4542386808693412655}
+  - component: {fileID: 2715367888020597647}
   m_Layer: 0
   m_Name: Obstacle_car_5_blue
   m_TagString: Untagged
@@ -458,7 +458,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4542386808693412655
+--- !u!114 &2715367888020597647
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -467,7 +467,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3092341295415984912}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e04cff3b04c98e74486c6eb28480a698, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d1d1fc184e432e4fa271fca562239f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5272699520996137990
