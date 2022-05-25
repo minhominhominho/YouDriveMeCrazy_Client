@@ -5,7 +5,7 @@ namespace Api
     [Serializable]
     public class RecordDto
     {
-        private int userId;
+        private string playerName;
         
         /**
          * 게임이 종료된 원인
@@ -25,9 +25,9 @@ namespace Api
         private int klaxonCount;
         private float clearTime;
 
-        public RecordDto(int userId, byte type, int maxSpeed, int wiperCount, int klaxonCount, float clearTime)
+        public RecordDto(string playerName, byte type, int maxSpeed, int wiperCount, int klaxonCount, float clearTime)
         {
-            this.userId = userId;
+            this.playerName = playerName;
             this.type = type;
             this.maxSpeed = maxSpeed;
             this.wiperCount = wiperCount;

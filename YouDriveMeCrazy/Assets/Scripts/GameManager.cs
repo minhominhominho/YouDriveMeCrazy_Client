@@ -3,11 +3,13 @@ using System.Globalization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Api;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
+using Debug = UnityEngine.Debug;
 
 
 public static class SavingData
@@ -100,6 +102,27 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    // by 상연,
+    // 게임 클리어 or 게임오버 시 업적 관련 정보들을 서버로 전송
+    private void SendRecord()
+    {
+        // by 상연,
+        // recordDto 변수는 임시로 작성해놓은 것
+        // /Api/RecordDto 클래스 참고해서 실제 객체를 만들어야 함 
+        // 근데 게임 클리어 했을 때도 보내야 함
+        RecordDto recordDto = null;
+        StartCoroutine(Api.Api.Record(recordDto, result =>
+        {
+            // 여기에 어떤 업적이 완료되었는 지 검사 후 화면에 표시하는 로직이 들어가면 됨
+            Debug.Log("안녕하세요. 가정에 평화가 가득하기를 바랍니다.");
+            
+            // 어떤 업적을 달성했는지가 result 변수에 담겨있음
+            // RecordResultDto 타입의 변수니까 RecordResultDto 클래스 참고
+            if(result.AnimalKill) Debug.Log("동물 100마리 킬 업적 달성");
+            // 위와 같이 분기 다 처리하면 됨
+        }));
+    }
+
     // by상민, clearNum==2시 서버에 클리어 시간 인서트하고, 클리어 시간 표시 구현
     // 스테이지 1 클리어 시 리브&고넥스트
     // 스테이지 2 클리어 시 개인 점수 표시하고 리브만
@@ -117,6 +140,18 @@ public class GameManager : MonoBehaviourPunCallbacks
                 float Stage1ClearTime = float.Parse(SavingData.timeReocrd);
                 SavingData.timeReocrd = (Stage1ClearTime + currentStageClearTime).ToString();
                 StartCoroutine(CallGameClear());
+                
+                // by 상연,
+                // 클리어타임 서버에 전송
+                StartCoroutine(Api.Api.InsertScore(SavingData.player1Name, SavingData.player2Name, SavingData.timeReocrd, scores =>
+                    {
+                        Debug.Log(scores.ToString());
+                    })
+                );
+                
+                // by 상연,
+                // 업적 관련 정보 전송
+                SendRecord();
             }
             else
             {
@@ -139,6 +174,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         
             currentStageClearTime = 0;
             StartCoroutine(CallGameOver());
+            
+            // by 상연,
+            // 업적 관련 정보 전송
+            SendRecord();
         }
 
     }

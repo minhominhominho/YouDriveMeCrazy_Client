@@ -5,7 +5,7 @@ namespace Api
     [Serializable]
     public class RecordResultDto
     {
-        private int user_id;
+        private string playerName;
         
         private bool animalKill;
 
@@ -33,9 +33,37 @@ namespace Api
 
         private bool achievementCount;
 
-        public RecordResultDto(int userID, bool animalKill, bool pedestrianKill, bool carAccident, bool illegalLaneChange, bool signalViolatio, bool centerLineViolation, bool offPath, bool maxSpeed, bool wiperCount, bool klaxonCount, bool clearCount, bool minClearTime, bool achievementCount)
+        public string PlayerName => playerName;
+
+        public bool AnimalKill => animalKill;
+
+        public bool PedestrianKill => pedestrianKill;
+
+        public bool CarAccident => carAccident;
+
+        public bool IllegalLaneChange => illegalLaneChange;
+
+        public bool SignalViolatio => signalViolatio;
+
+        public bool CenterLineViolation => centerLineViolation;
+
+        public bool OffPath => offPath;
+
+        public bool MaxSpeed => maxSpeed;
+
+        public bool WiperCount => wiperCount;
+
+        public bool KlaxonCount => klaxonCount;
+
+        public bool ClearCount => clearCount;
+
+        public bool MinClearTime => minClearTime;
+
+        public bool AchievementCount => achievementCount;
+
+        public RecordResultDto(string playerName, bool animalKill, bool pedestrianKill, bool carAccident, bool illegalLaneChange, bool signalViolatio, bool centerLineViolation, bool offPath, bool maxSpeed, bool wiperCount, bool klaxonCount, bool clearCount, bool minClearTime, bool achievementCount)
         {
-            user_id = userID;
+            this.playerName = playerName;
             this.animalKill = animalKill;
             this.pedestrianKill = pedestrianKill;
             this.carAccident = carAccident;
