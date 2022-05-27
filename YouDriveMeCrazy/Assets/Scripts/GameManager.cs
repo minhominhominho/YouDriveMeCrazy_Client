@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     #region UI
     [SerializeField] private KeyCode pauseKey;
     [SerializeField] private Text timerText;
+    [SerializeField] private GameObject gameStroyPanel;
     [SerializeField] private GameObject gamePlayPanel;
     [SerializeField] private GameObject gameOptionPanel;
     [SerializeField] private GameObject stageClearPanel;
@@ -45,9 +46,12 @@ public class GameManager : MonoBehaviourPunCallbacks
 
 
     #region GameState
+
+    public bool isGameStart { get; set; }
     public bool isGameEnd { get; private set; }
+    private bool isGamePause = false;
     private float currentStageClearTime = 0;
-    private bool isPause = false;
+    private int isClickedBy = 0; // 0 = no one click button, 1 = master client click button, 2 = participant client click button
     #endregion
 
     void Awake()
@@ -73,15 +77,23 @@ public class GameManager : MonoBehaviourPunCallbacks
     void Setup()
     {
         print("Stage" + SavingData.presentStageNum + " Start!");
+        isGameStart = false;
+        isGamePause = false;
         isGameEnd = false;
 
         currentStageClearTime = 0;
         if(SavingData.presentStageNum == 1) { SavingData.timeReocrd = "0"; }
+        Time.timeScale = 0;
 
+        if (gameStroyPanel != null) { gameStroyPanel.SetActive(true); }
+        if (gamePlayPanel != null) { gamePlayPanel.SetActive(false); }
+        if (gameOptionPanel != null) { gameOptionPanel.SetActive(false); }
         if (stageClearPanel != null) { stageClearPanel.SetActive(false); }
         if (gameClearPanel != null) { gameClearPanel.SetActive(false); }
         if (gameOverPanel != null) { gameOverPanel.SetActive(false); }
     }
+
+
 
     void Update()
     {
@@ -89,7 +101,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         Cheat.updateCheatState();
         #endregion
 
-        if (!isGameEnd && !isPause)
+        if (isGameStart && !isGameEnd && !isGamePause)
         {
             int minute = (int)currentStageClearTime / 60;
             int second = (int)currentStageClearTime % 60;
@@ -121,6 +133,13 @@ public class GameManager : MonoBehaviourPunCallbacks
             if(result.AnimalKill) Debug.Log("동물 100마리 킬 업적 달성");
             // 위와 같이 분기 다 처리하면 됨
         }));
+    }
+
+    public void GameStart() { 
+        isGameStart = true;
+        Time.timeScale = 1;
+        if (gameStroyPanel != null) { gameStroyPanel.SetActive(false); }
+        if (gamePlayPanel != null) { gamePlayPanel.SetActive(true); }
     }
 
     // by상민, clearNum==2시 서버에 클리어 시간 인서트하고, 클리어 시간 표시 구현
@@ -210,27 +229,29 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void Pause()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 2 || Cheat.cheatMode)
         {
-            if (PhotonNetwork.CurrentRoom.PlayerCount == 2 || Cheat.cheatMode)
-            {
-                PhotonView photonView = PhotonView.Get(this);
-                photonView.RPC("SyncPause", RpcTarget.All);
+            PhotonView photonView = PhotonView.Get(this);
+            if(PhotonNetwork.IsMasterClient) { photonView.RPC("SyncPause", RpcTarget.All, 1); }
+            else { photonView.RPC("SyncPause", RpcTarget.All, 2); }
 
-            }
-        }
+        }    
     }
 
     public void Resume()
     {
-        if (PhotonNetwork.IsMasterClient)
+        //by 상민, Pause를 누른 사람과 Resume을 누른 사람이 다를 경우, return;
+        if ((PhotonNetwork.IsMasterClient && isClickedBy == 2) || (!PhotonNetwork.IsMasterClient && isClickedBy == 1))
         {
-            if (PhotonNetwork.CurrentRoom.PlayerCount == 2 || Cheat.cheatMode)
-            {
-                PhotonView photonView = PhotonView.Get(this);
-                photonView.RPC("SyncResume", RpcTarget.All);
-            }
+            return;
         }
+
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 2 || Cheat.cheatMode)
+        {
+            PhotonView photonView = PhotonView.Get(this);
+            photonView.RPC("SyncResume", RpcTarget.All);
+        }
+
     }
 
     public void Next()
@@ -248,15 +269,13 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void Restart()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 2 || Cheat.cheatMode)
         {
-            if (PhotonNetwork.CurrentRoom.PlayerCount == 2 || Cheat.cheatMode)
-            {
-                speaker.Stop();
-                PhotonView photonView = PhotonView.Get(this);
-                photonView.RPC("SyncRestartStage", RpcTarget.All);
-            }
+            speaker.Stop();
+            PhotonView photonView = PhotonView.Get(this);
+            photonView.RPC("SyncRestartStage", RpcTarget.All);
         }
+        
     }
 
     public void Leave()
@@ -277,9 +296,11 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     #region SyncGamePlay
     
+    // by 상민, Master,Client 모두 같은 isClickedBy(누가 버튼을 눌렀는가) 값을 가지기 위해 PunRPC로 SyncPause에서 동기화
     [PunRPC]
-    private void SyncPause()
+    private void SyncPause(int isClickedBy)
     {
+        this.isClickedBy = isClickedBy;
         Time.timeScale = 0;
         gamePlayPanel.SetActive(false);
         gameOptionPanel.SetActive(true);
@@ -291,6 +312,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         Time.timeScale = 1;
         gamePlayPanel.SetActive(true);
         gameOptionPanel.SetActive(false);
+        isClickedBy = 0;
     }
 
     // by 상민, 새로운 씬 로드하기 전 현재 오브젝트 제거
