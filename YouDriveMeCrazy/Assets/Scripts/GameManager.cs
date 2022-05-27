@@ -35,7 +35,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Header("UI")]
     #region UI
     [SerializeField] private KeyCode pauseKey;
-    [SerializeField] private Text timerText;
     [SerializeField] private GameObject gameStroyPanel;
     [SerializeField] private GameObject gamePlayPanel;
     [SerializeField] private GameObject gameOptionPanel;
@@ -44,6 +43,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject gameOverPanel;
     #endregion
 
+    [Header("Time")]
+    #region Time
+    [SerializeField] private Text timerText;
+    [SerializeField] private Text clearTimeText;
+    [SerializeField] private Text finalClearTimeText;
+    #endregion
 
     #region GameState
 
@@ -154,6 +159,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             print("stage" + SavingData.presentStageNum + " clear!!");
             print("You took" + currentStageClearTime + "seconds!");
 
+            // game clear
             if (SavingData.presentStageNum == 2)
             {
                 float Stage1ClearTime = float.Parse(SavingData.timeReocrd);
@@ -207,6 +213,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(3f);
         if (stageClearPanel != null)
         { stageClearPanel.SetActive(true); }
+
+        int minute = (int)currentStageClearTime / 60;
+        int second = (int)currentStageClearTime % 60;
+        clearTimeText.text = $"Clear Time :  {minute} : {second}";
     }
 
     public IEnumerator CallGameClear()
@@ -214,6 +224,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(3f);
         if (gameClearPanel != null)
         { gameClearPanel.SetActive(true); }
+        
+        int minute = (int)currentStageClearTime / 60;
+        int second = (int)currentStageClearTime % 60;
+        finalClearTimeText.text = $"Clear Time :  {minute} : {second}";
     }
 
     public IEnumerator CallGameOver()
