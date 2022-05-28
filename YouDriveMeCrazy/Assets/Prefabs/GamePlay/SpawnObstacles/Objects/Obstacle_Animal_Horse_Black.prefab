@@ -837,6 +837,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d1d1fc184e432e4fa271fca562239f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 10
+  isKlaxonInteractable: 0
+  klaxonRequiredTime: 10
+  klaxonDistance: 15
 --- !u!1 &754664531803045421
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,6 +18,7 @@ public class ObstacleSpawnManager : MonoBehaviour
     public Transform spawnPos;
     public Transform destPos;
     public bool isKlaxonInteractable;
+    public float klaxonRequiredTime;
     private bool isSpawned;
 
 
@@ -37,7 +38,7 @@ public class ObstacleSpawnManager : MonoBehaviour
             isSpawned = true;
             GameObject g = Instantiate(allObstacles[(int)obstacleToBeSpawned - 1], spawnPos.position, Quaternion.identity);
 
-            g.GetComponent<Obstacle>().setObstacle(speed, isKlaxonInteractable);
+            g.GetComponent<Obstacle>().setObstacle(speed, isKlaxonInteractable, klaxonRequiredTime);
             g.transform.LookAt(destPos.position, transform.up);
         }
     }

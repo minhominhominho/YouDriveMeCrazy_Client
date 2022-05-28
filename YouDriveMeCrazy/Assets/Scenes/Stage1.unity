@@ -186,6 +186,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WiperPressingNeededZone (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8210346430816394939, guid: 6ee05fc2ac3d0e44a94f4086b8e0171f, type: 3}
+      propertyPath: requiredWiperPressing
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ee05fc2ac3d0e44a94f4086b8e0171f, type: 3}
 --- !u!4 &20091143 stripped
@@ -933,7 +937,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3305544782836166070, guid: 4d534255c24721a4c972a7a0e41ebb5d, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3305544782836166070, guid: 4d534255c24721a4c972a7a0e41ebb5d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1035,7 +1039,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3305544782836166070, guid: 4d534255c24721a4c972a7a0e41ebb5d, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3305544782836166070, guid: 4d534255c24721a4c972a7a0e41ebb5d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1296,7 +1300,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3305544782836166070, guid: 4d534255c24721a4c972a7a0e41ebb5d, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3305544782836166070, guid: 4d534255c24721a4c972a7a0e41ebb5d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1819,6 +1823,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WiperPressingNeededZone (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8210346430816394939, guid: 6ee05fc2ac3d0e44a94f4086b8e0171f, type: 3}
+      propertyPath: requiredWiperPressing
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ee05fc2ac3d0e44a94f4086b8e0171f, type: 3}
 --- !u!4 &757205946 stripped
@@ -2212,7 +2220,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3305544782836166070, guid: 4d534255c24721a4c972a7a0e41ebb5d, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3305544782836166070, guid: 4d534255c24721a4c972a7a0e41ebb5d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2311,6 +2319,10 @@ PrefabInstance:
     - target: {fileID: 3305544782836166025, guid: 4d534255c24721a4c972a7a0e41ebb5d, type: 3}
       propertyPath: spawnObstacle
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3305544782836166025, guid: 4d534255c24721a4c972a7a0e41ebb5d, type: 3}
+      propertyPath: klaxonRequiredTime
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3305544782836166025, guid: 4d534255c24721a4c972a7a0e41ebb5d, type: 3}
       propertyPath: obstacleToBeSpawned
@@ -2536,7 +2548,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3305544782836166070, guid: 4d534255c24721a4c972a7a0e41ebb5d, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3305544782836166070, guid: 4d534255c24721a4c972a7a0e41ebb5d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3516,6 +3528,10 @@ PrefabInstance:
     - target: {fileID: 6315110452873431320, guid: 6ee05fc2ac3d0e44a94f4086b8e0171f, type: 3}
       propertyPath: m_Name
       value: WiperPressingNeededZone
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210346430816394939, guid: 6ee05fc2ac3d0e44a94f4086b8e0171f, type: 3}
+      propertyPath: requiredWiperPressing
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ee05fc2ac3d0e44a94f4086b8e0171f, type: 3}

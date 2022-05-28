@@ -10,7 +10,8 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
     public static CarController carController;
 
     private bool isEnded = false;
-    [SerializeField] private int maxSpeed;
+    private int maxSpeed;
+    private int requiredWiperPressing;
 
     #region Player Input
     // Player1
@@ -18,6 +19,8 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
 
     //Player2
     [HideInInspector] public bool isAccelPressing, isRightTurnPressing, isLeftTurnSignalPressing, isWiperPressing;
+    private bool preIsWiperPressing;
+    private int wiperCount;
 
     // Calculated Input Values
     public float keyMomentum = 3f;  // Key Input goes from 0 to 1 in 1/3f seconds
@@ -35,6 +38,7 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
     public Color turnSignalColor;
 
     public GameObject inkjet;
+    private Image inkjetImg;
     private Vector3 inkjetExtendedScale;
 
 
@@ -64,21 +68,21 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
     {
         carController = this;
 
-        inkjetExtendedScale = inkjet.transform.localScale;
-        inkjet.transform.localScale = Vector3.zero;
-        inkjet.SetActive(true);
-
         rb = GetComponent<Rigidbody>();
         rb.centerOfMass = centerOfMass.localPosition;
+
+        initializeWiper();
     }
 
     void Update()
     {
         if (!GameManager.Instance.isGameEnd)
         {
-            calculateInput();
+            calculateMovementInput();
             UpdateWheelPhysics();
             UpdateWheelTransforms();
+
+            updateWiper();
         }
         else
         {
@@ -90,22 +94,12 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
         }
 
         updateUI();
+        updateSpeedIndicator();
     }
 
-    private void calculateInput()
-    {
-        // Map isPressing variables to -1 ~ +1 float values
-        accelValue += isAccelPressing ? keyMomentum * Time.deltaTime : -keyMomentum * Time.deltaTime;
-        accelValue = Mathf.Clamp(accelValue, 0, 1);
 
-        // turnValue += isLeftTurnPressing ? -keyMomentum * Time.deltaTime : keyMomentum * Time.deltaTime;
-        // turnValue += isRightTurnPressing ? keyMomentum * Time.deltaTime : -keyMomentum * Time.deltaTime;
-        // turnValue = Mathf.Clamp(turnValue, -1, 1);
-        turnValue += isLeftTurnPressing ? -keyMomentum * Time.deltaTime : 0;
-        turnValue += isRightTurnPressing ? keyMomentum * Time.deltaTime : 0;
-        turnValue = Mathf.Clamp(turnValue, -1, 1);
-    }
 
+    // Will be deleted later
     private void updateUI()
     {
         if (isBreakPressing) { breakUI.color = Color.red; } else { breakUI.color = Color.black; }
@@ -117,8 +111,10 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
         if (isRightTurnPressing) { rightTurnUI.color = Color.red; } else { rightTurnUI.color = Color.black; }
         if (isLeftTurnSignalPressing) { leftTurnSignalUI.color = Color.red; } else { leftTurnSignalUI.color = Color.black; }
         if (isWiperPressing) { wiperUI.color = Color.red; } else { wiperUI.color = Color.black; }
+    }
 
-
+    private void updateSpeedIndicator()
+    {
         // Update speed indicator UI
         float tempSpeed = rb.velocity.magnitude * 10;
         speedIndicatorArrow.transform.rotation = Quaternion.Euler(new Vector3(0, 0, Mathf.Clamp(tempSpeed / 240 * -180 + 90, -90, 90)));
@@ -131,22 +127,53 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
         // Update turn signal UI
         if (isRightTurnSignalPressing) { rTurnSignalUI.color = turnSignalColor; } else { rTurnSignalUI.color = Color.white; }
         if (isLeftTurnSignalPressing) { lTurnSignalUI.color = turnSignalColor; } else { lTurnSignalUI.color = Color.white; }
-
-
-        if (inkjet.transform.localScale.x != 0)
-        {
-
-        }
-
-        // Eliminate inkjet when wiper btn is pressed
-        if (isWiperPressing && inkjet.transform.localScale != Vector3.zero) { inkjet.transform.localScale = Vector3.zero; }
-
-        // For test
-        if (Input.GetKeyDown(KeyCode.O)) { coverWindow(); }
     }
 
-    public void coverWindow()
+    #region Wiper
+    // Start에서만 호출되는 초기화 메소드
+    private void initializeWiper()
     {
+        inkjetImg = inkjet.GetComponent<Image>();
+        inkjetExtendedScale = inkjet.transform.localScale;
+        inkjet.transform.localScale = Vector3.zero;
+        inkjet.SetActive(true);
+    }
+
+    // 플레이어의 wiper 버튼 누른 횟수 확인
+    private void updateWiper()
+    {
+        // Eliminate inkjet when wiper btn is pressed over requiredWiperPressing times
+        if (inkjet.transform.localScale != Vector3.zero)
+        {
+            // 잉크가 남아있고, 버튼이 눌렸다면 알베도 값을 조금 줄여줌
+            if (!preIsWiperPressing && isWiperPressing)
+            {
+                wiperCount += 1;
+                inkjetImg.color = new Vector4(inkjetImg.color.r, inkjetImg.color.g, inkjetImg.color.b, inkjetImg.color.a - (float)0.5 / requiredWiperPressing);
+            }
+            preIsWiperPressing = isWiperPressing;
+
+            // 해당 와이퍼존의 횟수만큼 버튼을 누르면 바로 없애줌
+            if (requiredWiperPressing <= wiperCount)
+            {
+                wiperCount = 0;
+                inkjet.transform.localScale = Vector3.zero;
+                inkjetImg.color = new Vector4(inkjetImg.color.r, inkjetImg.color.g, inkjetImg.color.b, 1);
+            }
+        }
+    }
+
+    public void coverWindow(int requiredWiperPressing)
+    {
+        // 이미 존재하면 초기화하고 새로 만듦
+        if (inkjet.transform.localScale != Vector3.zero)
+        {
+            wiperCount = 0;
+            inkjet.transform.localScale = Vector3.zero;
+            inkjetImg.color = new Vector4(inkjetImg.color.r, inkjetImg.color.g, inkjetImg.color.b, 1);
+        }
+
+        this.requiredWiperPressing = requiredWiperPressing;
         StartCoroutine(extendInkjetScale());
     }
 
@@ -158,6 +185,19 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
             inkjet.transform.localScale += inkjet.transform.localScale * 0.1f + Vector3.one * 0.01f;
             yield return new WaitForSeconds(0.01f);
         }
+    }
+    #endregion
+
+    #region Car Movement
+    private void calculateMovementInput()
+    {
+        // Mapping 'isPressing' variables
+        accelValue += isAccelPressing ? keyMomentum * Time.deltaTime : -keyMomentum * Time.deltaTime;
+        accelValue = Mathf.Clamp(accelValue, 0, 1);
+
+        turnValue += isLeftTurnPressing ? -keyMomentum * Time.deltaTime : 0;
+        turnValue += isRightTurnPressing ? keyMomentum * Time.deltaTime : 0;
+        turnValue = Mathf.Clamp(turnValue, -1, 1);
     }
 
     // Updates the wheel transforms.
@@ -230,4 +270,5 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
             frontLeftCollider.brakeTorque = 0;
         }
     }
+    #endregion
 }
