@@ -10,7 +10,7 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
     public static CarController carController;
 
     private bool isEnded = false;
-    public int maxSpeed;
+    [SerializeField] private int maxSpeed;
 
     #region Player Input
     // Player1
@@ -132,6 +132,11 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
         if (isRightTurnSignalPressing) { rTurnSignalUI.color = turnSignalColor; } else { rTurnSignalUI.color = Color.white; }
         if (isLeftTurnSignalPressing) { lTurnSignalUI.color = turnSignalColor; } else { lTurnSignalUI.color = Color.white; }
 
+
+        if (inkjet.transform.localScale.x != 0)
+        {
+
+        }
 
         // Eliminate inkjet when wiper btn is pressed
         if (isWiperPressing && inkjet.transform.localScale != Vector3.zero) { inkjet.transform.localScale = Vector3.zero; }
