@@ -84,7 +84,7 @@ public class Obstacle : MonoBehaviour
     {
         if (collision.collider.CompareTag("Car"))
         {
-            GameManager.Instance.GameOver();
+            GameManager.Instance.GameOver(GameOverState.KillAnimal);
         }
     }
 }

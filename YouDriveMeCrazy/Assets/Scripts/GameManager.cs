@@ -20,9 +20,11 @@ public static class SavingData
     public static string player2Name;
 }
 
+public enum GameOverState { LaneCross, KillAnimal, OutOfTheWay, TrafficLightViolation, HitCar, NoKlaxon};
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
+
     public static GameManager Instance;
     [SerializeField] private GameObject inputManager;
 
@@ -187,8 +189,24 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     // by 상민, 다른 클래스에서 GameManager.Instance.GameOver() 호출, 경고음 재생 3초 후에 GameOverPanel 활성화
-    public void GameOver()
+    public void GameOver(GameOverState gameOverState)
     {
+        //by 상민, gameOver state에 따라 업적 데이터 서버에 전송
+        switch(gameOverState){
+            case GameOverState.LaneCross:
+                break;
+            case GameOverState.KillAnimal:
+                break;
+            case GameOverState.OutOfTheWay:
+                break;
+            case GameOverState.TrafficLightViolation:
+                break;
+            case GameOverState.HitCar:
+                break;
+            case GameOverState.NoKlaxon:
+                break;
+        }
+
         if (!isGameEnd)
         {
             print("GameOver");

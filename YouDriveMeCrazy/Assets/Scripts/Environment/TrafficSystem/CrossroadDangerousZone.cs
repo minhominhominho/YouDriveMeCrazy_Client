@@ -13,7 +13,7 @@ public class CrossroadDangerousZone : MonoBehaviour
     {
         if (other.tag == "Car")
         {
-            GameManager.Instance.GameOver();
+            GameManager.Instance.GameOver(GameOverState.OutOfTheWay);
             this.gameObject.GetComponent<Collider>().enabled = false;
         }
     }
