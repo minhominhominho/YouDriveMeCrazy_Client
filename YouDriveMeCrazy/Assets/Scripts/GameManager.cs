@@ -54,6 +54,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] private Text finalClearTimeText;
     #endregion
 
+    private bool isDev = true; 
+
     #region GameState
 
     public bool isGameStart { get; set; }
@@ -174,15 +176,19 @@ public class GameManager : MonoBehaviourPunCallbacks
                 
                 // by 상연,
                 // 클리어타임 서버에 전송
-                StartCoroutine(Api.Api.InsertScore(SavingData.player1Name, SavingData.player2Name, SavingData.timeReocrd, scores =>
-                    {
-                        Debug.Log(scores.ToString());
-                    })
-                );
+                if (!isDev)
+                {
+                    StartCoroutine(Api.Api.InsertScore(SavingData.player1Name, SavingData.player2Name, SavingData.timeReocrd, scores =>
+                        {
+                            Debug.Log(scores.ToString());
+                        })
+                    );    
+                }
+                
                 
                 // by 상연,
                 // 업적 관련 정보 전송
-                SendRecord();
+                // SendRecord();
             }
             else
             {
@@ -197,9 +203,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         // by 상연,
         // 클락션, 와이퍼 작동 횟수 등 실제 클리어 데이터 넣어야 함
-        string playerName = PhotonNetwork.IsMasterClient ? SavingData.player1Name : SavingData.player2Name;
-        StartCoroutine(Api.Api.Record(new RecordDto(playerName, (int) gameOverState, 100, 10, 10, float.Parse(SavingData.timeReocrd)), dto => { print(dto.ToString()); }));
-        
+        if (!isDev)
+        {
+            string playerName = PhotonNetwork.IsMasterClient ? SavingData.player1Name : SavingData.player2Name;
+            StartCoroutine(Api.Api.Record(new RecordDto(playerName, (int) gameOverState, 100, 10, 10, float.Parse(SavingData.timeReocrd)), dto => { print(dto.ToString()); }));    
+        }
+
         if (!isGameEnd)
         {
             print("GameOver");
