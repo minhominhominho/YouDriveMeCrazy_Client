@@ -18,6 +18,8 @@ public static class SavingData
     public static int presentStageNum;
     public static string player1Name;
     public static string player2Name;
+    //로그인 성공시 저장되는 이름
+    public static string myName;
 }
 
 
