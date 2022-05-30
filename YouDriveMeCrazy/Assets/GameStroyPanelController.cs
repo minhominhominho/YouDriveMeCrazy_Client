@@ -12,14 +12,17 @@ public class GameStroyPanelController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         /*
         if (SavingData.presentStageNum == 1)
         {
             if (Stage1Story != null) { Stage1Story.SetActive(true); }
             if (Stage2Story != null) { Stage2Story.SetActive(false); }
         }
+        
+        by 상민, SavingData 동기화 함수 만든 후 SceneManager.GetActiveScene().buildIndex == 2 지우고 SavingData.presentStageNum == 1로 변경하기
         */
-        // by 상민, SavingData 동기화 함수 만든 후 SceneManager.GetActiveScene().buildIndex == 2 지우고 SavingData.presentStageNum == 1로 변경하기
+        
         if(SceneManager.GetActiveScene().buildIndex == 2){
             if (Stage1Story != null) { Stage1Story.SetActive(true); }
             if (Stage2Story != null) { Stage2Story.SetActive(false); }
