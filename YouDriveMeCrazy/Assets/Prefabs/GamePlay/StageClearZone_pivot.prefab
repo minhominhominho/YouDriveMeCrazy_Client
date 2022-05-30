@@ -108,6 +108,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71a67da2bb0b4944aabb4aa8feae9047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sfxSpeaker: {fileID: 0}
+  clearZoneEnterSound: {fileID: 8300000, guid: b626bddc94d86e0498000c9c155d334f, type: 3}
 --- !u!1 &9045450595944210912
 GameObject:
   m_ObjectHideFlags: 0

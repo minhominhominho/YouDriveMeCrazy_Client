@@ -1413,6 +1413,14 @@ PrefabInstance:
       value: 'Car '
       objectReference: {fileID: 0}
     - target: {fileID: 6946875041595037231, guid: 619715deb3aec214c98c63e3040ca4d5, type: 3}
+      propertyPath: speaker
+      value: 
+      objectReference: {fileID: 1504024114}
+    - target: {fileID: 6946875041595037231, guid: 619715deb3aec214c98c63e3040ca4d5, type: 3}
+      propertyPath: sfxSpeaker
+      value: 
+      objectReference: {fileID: 966571596}
+    - target: {fileID: 6946875041595037231, guid: 619715deb3aec214c98c63e3040ca4d5, type: 3}
       propertyPath: steerAngle
       value: 15
       objectReference: {fileID: 0}
@@ -1942,6 +1950,133 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5975936630559021942, guid: fabba633ec57ef8438c282c2f184f059, type: 3}
   m_PrefabInstance: {fileID: 858123477}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &966571594
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 966571595}
+  - component: {fileID: 966571596}
+  m_Layer: 0
+  m_Name: SFXtSpeaker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &966571595
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 966571594}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1818223929}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &966571596
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 966571594}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &1008694800 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3305544782836166070, guid: 4d534255c24721a4c972a7a0e41ebb5d, type: 3}
@@ -2437,6 +2572,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1505537171}
     m_Modifications:
+    - target: {fileID: 8546382508172306578, guid: 9ca7148d2fdde74448c58d50bde85ed1, type: 3}
+      propertyPath: sfxSpeaker
+      value: 
+      objectReference: {fileID: 966571596}
     - target: {fileID: 9045450595836347602, guid: 9ca7148d2fdde74448c58d50bde85ed1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.04
@@ -2619,7 +2758,7 @@ GameObject:
   - component: {fileID: 1504024113}
   - component: {fileID: 1504024114}
   m_Layer: 0
-  m_Name: Speaker
+  m_Name: BGMSpeaker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2650,7 +2789,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -3103,6 +3242,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1504024113}
+  - {fileID: 966571595}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3620,6 +3760,14 @@ PrefabInstance:
       propertyPath: speaker
       value: 
       objectReference: {fileID: 1504024114}
+    - target: {fileID: 4000718193191058579, guid: e4702b994eb17c3468ba98b68bc5f593, type: 3}
+      propertyPath: bgmSpeaker
+      value: 
+      objectReference: {fileID: 1504024114}
+    - target: {fileID: 4000718193191058579, guid: e4702b994eb17c3468ba98b68bc5f593, type: 3}
+      propertyPath: sfxSpeaker
+      value: 
+      objectReference: {fileID: 966571596}
     - target: {fileID: 5771036954010776207, guid: e4702b994eb17c3468ba98b68bc5f593, type: 3}
       propertyPath: m_IsActive
       value: 0
