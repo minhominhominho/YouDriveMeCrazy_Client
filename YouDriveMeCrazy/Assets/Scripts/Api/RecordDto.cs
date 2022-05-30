@@ -1,10 +1,12 @@
 using System;
+using UnityEngine;
 
 namespace Api
 {
     [Serializable]
     public class RecordDto
     {
+        [SerializeField]
         private string playerName;
         
         /**
@@ -18,14 +20,19 @@ namespace Api
          * 6 - 중앙선 침범
          * 7 - 길 벗어남
          */
-        private byte type;
-
+        [SerializeField]
+        private int type;
+        [SerializeField]
         private int maxSpeed;
+        [SerializeField]
         private int wiperCount;
+        [SerializeField]
         private int klaxonCount;
+        
+        [SerializeField]
         private float clearTime;
 
-        public RecordDto(string playerName, byte type, int maxSpeed, int wiperCount, int klaxonCount, float clearTime)
+        public RecordDto(string playerName, int type, int maxSpeed, int wiperCount, int klaxonCount, float clearTime)
         {
             this.playerName = playerName;
             this.type = type;

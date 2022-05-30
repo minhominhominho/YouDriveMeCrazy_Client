@@ -20,10 +20,10 @@ public static class SavingData
     public static string player2Name;
 }
 
-public enum GameOverState { LaneCross, KillAnimal, OutOfTheWay, TrafficLightViolation, HitCar, NoKlaxon};
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
+    public enum GameState { GameClear = 0, KillAnimal=1, KillPeople = 2, HitCar=3,  LaneCross = 4, TrafficLightViolation = 5, MidLainCross = 6 ,OutOfTheWay = 7};
 
     public static GameManager Instance;
     [SerializeField] private GameObject inputManager;
@@ -98,6 +98,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (stageClearPanel != null) { stageClearPanel.SetActive(false); }
         if (gameClearPanel != null) { gameClearPanel.SetActive(false); }
         if (gameOverPanel != null) { gameOverPanel.SetActive(false); }
+        
+        MatchSavingData();
     }
 
 
@@ -189,24 +191,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     // by 상민, 다른 클래스에서 GameManager.Instance.GameOver() 호출, 경고음 재생 3초 후에 GameOverPanel 활성화
-    public void GameOver(GameOverState gameOverState)
+    public void GameOver(GameState gameOverState)
     {
-        //by 상민, gameOver state에 따라 업적 데이터 서버에 전송
-        switch(gameOverState){
-            case GameOverState.LaneCross:
-                break;
-            case GameOverState.KillAnimal:
-                break;
-            case GameOverState.OutOfTheWay:
-                break;
-            case GameOverState.TrafficLightViolation:
-                break;
-            case GameOverState.HitCar:
-                break;
-            case GameOverState.NoKlaxon:
-                break;
-        }
-
+        // by 상연,
+        // 클락션, 와이퍼 작동 횟수 등 실제 클리어 데이터 넣어야 함
+        string playerName = PhotonNetwork.IsMasterClient ? SavingData.player1Name : SavingData.player2Name;
+        StartCoroutine(Api.Api.Record(new RecordDto(playerName, (int) gameOverState, 100, 10, 10, float.Parse(SavingData.timeReocrd)), dto => { print(dto.ToString()); }));
+        
         if (!isGameEnd)
         {
             print("GameOver");
@@ -220,7 +211,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             
             // by 상연,
             // 업적 관련 정보 전송
-            SendRecord();
+            // SendRecord();
         }
 
     }
@@ -296,6 +287,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 PhotonView photonView = PhotonView.Get(this);
                 photonView.RPC("SyncNextStage", RpcTarget.All);
             }
+            MatchSavingData();
         }
     }
 
@@ -307,7 +299,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonView photonView = PhotonView.Get(this);
             photonView.RPC("SyncRestartStage", RpcTarget.All);
         }
-        
+        MatchSavingData();
     }
 
     public void Leave()
@@ -322,6 +314,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 photonView.RPC("SyncLeaveStage", RpcTarget.All);
             }
         }
+        MatchSavingData();
     }
 
     #endregion
@@ -370,6 +363,24 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer.ActorNumber);
         PhotonNetwork.LoadLevel(1);
     }
+    
+    private void MatchSavingData()
+    {
+        if(!PhotonNetwork.IsMasterClient) {return;}
+        PhotonView photonView = PhotonView.Get(this);
+        photonView.RPC("SyncSavingData", RpcTarget.All, SavingData.player1Name,SavingData.player2Name,SavingData.presentStageNum,SavingData.timeReocrd);
+    }
+
+    [PunRPC]
+    private void SyncSavingData(string player1Name, string player2Name, int presentStageNum, string timeRecord)
+    {
+        SavingData.player1Name = player1Name;
+        SavingData.player2Name = player2Name;
+        SavingData.presentStageNum = presentStageNum;
+        SavingData.timeReocrd = timeRecord;
+        print(SavingData.player1Name+SavingData.player2Name+SavingData.presentStageNum+SavingData.timeReocrd);
+    }
+
 
     // by 상민, 방 나가면 자동으로 호출
     public override void OnLeftRoom()

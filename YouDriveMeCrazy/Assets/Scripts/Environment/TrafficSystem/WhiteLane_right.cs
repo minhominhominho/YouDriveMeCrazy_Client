@@ -29,7 +29,7 @@ public class WhiteLane_right : MonoBehaviour
             else
             {
                 // by 상민, 자동차 속도 천천히 줄이기 필요
-                GameManager.Instance.GameOver(GameOverState.LaneCross);
+                GameManager.Instance.GameOver(GameManager.GameState.LaneCross);
                 this.GetComponent<Collider>().enabled = false;
                 leftCollider.GetComponent<Collider>().enabled = false;
                 //print("오른쪽 콜라이더에서 신호위반 걸림. 게임 오버");

@@ -43,7 +43,7 @@ public class TrafficLightController : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if(other.tag == "Car" && isRedLight){
             isWorking = false;
-            GameManager.Instance.GameOver(GameOverState.TrafficLightViolation);
+            GameManager.Instance.GameOver(GameManager.GameState.TrafficLightViolation);
         }
     }
 
