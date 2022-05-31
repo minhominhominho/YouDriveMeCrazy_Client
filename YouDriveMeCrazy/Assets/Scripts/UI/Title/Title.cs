@@ -12,23 +12,29 @@ public class Title : MonoBehaviour
     public string SceneToLoad2;
     public string SceneToLoad3;
 
-     void Start() {
-       // SceneManager.LoadScene("Test");
+    void Start()
+    {
+        MainMenu();
+        // SceneManager.LoadScene("Test");
     }
-     void Update() {
-        
+    void Update()
+    {
+
     }
-    public void MainMenu(){
+    public void MainMenu()
+    {
         mainMenuHolder.SetActive(true);
         optionMenuHolder.SetActive(false);
         scoreMenuHolder.SetActive(false);
     }
-    public void OptionMenu(){
+    public void OptionMenu()
+    {
         mainMenuHolder.SetActive(false);
         optionMenuHolder.SetActive(true);
         scoreMenuHolder.SetActive(false);
     }
-    public void ScoreMenu(){
+    public void ScoreMenu()
+    {
         mainMenuHolder.SetActive(false);
         optionMenuHolder.SetActive(false);
         scoreMenuHolder.SetActive(true);
@@ -50,8 +56,8 @@ public class Title : MonoBehaviour
         Application.Quit();
     }
 
-// public void QuitGame()
-//     {
-//         Application.quitting;
-//     }
+    // public void QuitGame()
+    //     {
+    //         Application.quitting;
+    //     }
 }
