@@ -12,6 +12,7 @@ public class ScoreBoardManager : MonoBehaviour
     #region private Fields
 
     [SerializeField] private TMP_Text scoreText;
+    [SerializeField] private GameObject content;
 
     private Scores[] scoreList;
 
@@ -21,17 +22,12 @@ public class ScoreBoardManager : MonoBehaviour
     {
         StartCoroutine(Api.Api.LoadScores((data) =>
         {
-            scoreList = data;
+            print(data.Length);
             
+            scoreList = data;
+
             PrintScore();
         }));
-        
-        Scores[] scores = {new Scores(1, "kim", "park", 100)};
-        ScoresResDto scoresResDto = new ScoresResDto(scores);
-        
-        string json = JsonUtility.ToJson(scoresResDto);
-        
-        Debug.Log(json);
     }
 
     #region private methods
@@ -44,10 +40,14 @@ public class ScoreBoardManager : MonoBehaviour
         {
             Scores score = scoreList[i];
 
-            txt += i + "\t" + score.ToString() + "\n";
+            txt = i + "\t" + score.ToString() + "\n";
+
+            TMP_Text obj = (TMP_Text) Instantiate(scoreText, Vector3.zero, Quaternion.identity);
+
+            obj.SetText(txt);
+            
+            obj.transform.SetParent(content.transform);
         }
-        
-        scoreText.SetText(txt);
     }
 
     #endregion
