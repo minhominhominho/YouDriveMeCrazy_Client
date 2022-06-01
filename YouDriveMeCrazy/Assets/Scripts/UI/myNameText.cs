@@ -9,7 +9,7 @@ public class myNameText : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        myName.text = SavingData.myName;
+        myName.text = SavingData.myName != null? SavingData.myName : "fortest" ;
     }
 
     // Update is called once per frame
