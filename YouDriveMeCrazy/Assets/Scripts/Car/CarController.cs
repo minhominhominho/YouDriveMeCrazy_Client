@@ -171,6 +171,7 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
                 wiperCount = 0;
                 inkjet.transform.localScale = Vector3.zero;
                 inkjetImg.color = new Vector4(inkjetImg.color.r, inkjetImg.color.g, inkjetImg.color.b, 1);
+                GameManager.Instance.WiperCount += 1;
             }
         }
     }
