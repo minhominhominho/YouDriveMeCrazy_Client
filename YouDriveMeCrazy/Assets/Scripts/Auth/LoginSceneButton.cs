@@ -7,6 +7,9 @@ public class LoginSceneButton : MonoBehaviour
     public GameObject createAccountHolder;
     public GameObject loginHolder;
     public GameObject dialogHolder;
+    public GameObject nickWarningHolder;
+    public GameObject successMessageHolder;
+    public GameObject wrongmatchPassHolder;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,5 +35,15 @@ public class LoginSceneButton : MonoBehaviour
     public void dialogOffButton(){
             dialogHolder.SetActive(false);
     }
-    
+    public void nickWarningOffButton(){
+            nickWarningHolder.SetActive(false);
+    }
+    public void wrongpassOffButton(){
+        wrongmatchPassHolder.SetActive(false);
+    }
+    public void successMessageOffButton(){
+            successMessageHolder.SetActive(false);
+            createAccountHolder.SetActive(false);
+            loginHolder.SetActive(true);
+    }
 }
