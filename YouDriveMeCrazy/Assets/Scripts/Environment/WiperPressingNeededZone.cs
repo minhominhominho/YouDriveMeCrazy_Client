@@ -6,9 +6,6 @@ public class WiperPressingNeededZone : MonoBehaviour
 {
     public int requiredWiperPressing;
 
-    [Header("Audio")]
-    [SerializeField] private AudioSource sfxSpeaker;
-    [SerializeField] private AudioClip startEngineSound;
 
     private void OnTriggerEnter(Collider other)
     {

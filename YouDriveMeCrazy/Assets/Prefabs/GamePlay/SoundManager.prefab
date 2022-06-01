@@ -313,6 +313,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 368aa332dfab45b41930926052330a40, type: 3}
   - {fileID: 8300000, guid: 39e48d9fa482f7541ab1cf4b4b680826, type: 3}
   - {fileID: 8300000, guid: b626bddc94d86e0498000c9c155d334f, type: 3}
+  - {fileID: 8300000, guid: 6370617992515d4438f7a6d458ec7982, type: 3}
   carSfx:
   - {fileID: 8300000, guid: ce4837531c5ba7c42a2bc7df49178ca7, type: 3}
   - {fileID: 8300000, guid: a55f37a63e5123849a2d1c0094bee8ad, type: 3}

@@ -69,6 +69,7 @@ namespace Photon
             PhotonNetwork.GameVersion = "1";                // 뭔지 잘 모름 TODO: 시간 나면 자세히 알아보기
             Debug.Log("Try to connect");
             PhotonNetwork.ConnectUsingSettings();           // Master Server 에 연결하는 함수 -> OnConnectedToServer() 호출
+            SoundManager.Instance.PlayBgm(BGM.titleBgm);
         }
 
         private void Update()
