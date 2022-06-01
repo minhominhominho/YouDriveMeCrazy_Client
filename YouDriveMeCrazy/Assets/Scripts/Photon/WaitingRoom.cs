@@ -97,8 +97,8 @@ namespace Photon
         private bool CheckNickname()
         {
             // TODO: 유효한 닉네임의 기준 정해야 함
-            return nicknameInput.text.Length > 0;
-           // return SavingData.myName.Length > 0;
+            //return nicknameInput.text.Length > 0;
+           return SavingData.myName.Length > 0;
         }
 
         private string CreateRandomString(int length)
@@ -133,8 +133,8 @@ namespace Photon
             if (!CheckNickname()) return;
 
             // set nickname
-            PhotonNetwork.NickName = nicknameInput.text;
-            //PhotonNetwork.NickName = SavingData.myName;
+            //PhotonNetwork.NickName = nicknameInput.text;
+            PhotonNetwork.NickName = SavingData.myName;
 
             // Create Room
             // string roomCode = roomCodeInput.text;
@@ -169,8 +169,8 @@ namespace Photon
             if (!CheckNickname()) return;
 
             // set nickname
-            PhotonNetwork.NickName = nicknameInput.text;
-            //PhotonNetwork.NickName = SavingData.myName;
+            //PhotonNetwork.NickName = nicknameInput.text;
+            PhotonNetwork.NickName = SavingData.myName;
             // join room
             PhotonNetwork.JoinRandomRoom();
         }
