@@ -24,7 +24,7 @@ namespace ScoreBoard
 
         public override string ToString()
         {
-            return player1 + "\t" + player2 + "\t" + clearTime;
+            return player1 + "\t" + player2 + "\t \t" + clearTime;
         }
     }
 }
