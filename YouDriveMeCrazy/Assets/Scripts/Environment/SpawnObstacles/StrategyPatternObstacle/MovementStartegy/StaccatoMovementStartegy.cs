@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StaccatoMovementStartegy : MonoBehaviour, MovementStartegy
 {
-    public void move()
+    public void Move()
     {
 
     }

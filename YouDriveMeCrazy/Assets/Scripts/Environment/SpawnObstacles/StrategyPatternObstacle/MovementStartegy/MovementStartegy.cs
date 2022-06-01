@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface MovementStartegy
 {
-    public void move();
+    public void Move();
 }
