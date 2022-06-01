@@ -4197,7 +4197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 807422840807315352, guid: cd377a087c8154fb080cdc69ba324e2f, type: 3}
-  content: {fileID: 0}
+  content: {fileID: 1634684636}
 --- !u!4 &1309196228
 Transform:
   m_ObjectHideFlags: 0
