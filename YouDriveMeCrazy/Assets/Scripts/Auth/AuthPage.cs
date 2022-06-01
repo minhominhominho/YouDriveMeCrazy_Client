@@ -27,6 +27,9 @@ public class AuthPage : MonoBehaviour
     private const string email = "id";
     private const string password = "password";
     public GameObject dialogHolder;
+    public GameObject nickWaringHolder;
+    public GameObject successMessageHolder;
+    public GameObject wrongmatchPassHolder;
     // Start is called before the first frame update
     void Start()
     {
@@ -101,6 +104,7 @@ public class AuthPage : MonoBehaviour
 
         //응답대기
         yield return webRequest.SendWebRequest();
+        
         //에러처리
         if(webRequest.result != UnityWebRequest.Result.Success) {
             Debug.Log(webRequest.error);
@@ -109,9 +113,10 @@ public class AuthPage : MonoBehaviour
         else {
             Debug.Log("Form upload complete!");
             Debug.Log(createUserJson);
+            successMessageHolder.SetActive(true);
             //
             //저장완료시 로그인창으로 넘어가도록
-            //LoginSceneButton.LoginScene();
+           // LoginSceneButton.LoginScene();
             
         }
         }
@@ -132,10 +137,15 @@ public class AuthPage : MonoBehaviour
     }
     public void CreateAccountButton(){
 
-        if(NewPassinput.text.Equals(NewCheckPassinput.text)){
-            StartCoroutine(CreateCo());
+        if(!NewPassinput.text.Equals(NewCheckPassinput.text)|| NewIDinput.text.Length >3){
+            if(NewIDinput.text.Length > 3 ){   
+                nickWaringHolder.SetActive(true);
+            }else{
+                wrongmatchPassHolder.SetActive(true);
+                
+            }
         }else{
-            Debug.Log("user enter different password");
+            StartCoroutine(CreateCo());
         }
         
     }
