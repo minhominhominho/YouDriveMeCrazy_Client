@@ -26,6 +26,7 @@ public class AuthPage : MonoBehaviour
 
     private const string email = "id";
     private const string password = "password";
+    public GameObject dialogHolder;
     // Start is called before the first frame update
     void Start()
     {
@@ -64,6 +65,8 @@ public class AuthPage : MonoBehaviour
             SavingData.myName = loginUser.email;
            // Debug.Log(SavingData.myName);
             //게임매니져 변수에 접근해서 저장하기
+        }else{
+            dialogHolder.SetActive(true);
         }
         
        // User user = JsonUtility.FromJson<User>(textt);
