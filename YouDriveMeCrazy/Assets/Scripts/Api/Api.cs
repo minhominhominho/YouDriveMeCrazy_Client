@@ -16,9 +16,17 @@ namespace Api
                 yield return www.SendWebRequest();
                 if (www.isDone)
                 {
-                    string result = System.Text.Encoding.UTF8.GetString(www.downloadHandler.data);
+                    Debug.Log(www.result);
+                    if (www.result == UnityWebRequest.Result.ConnectionError)
+                    {
+                        Debug.Log("Server Connection Error");
+                    }
+                    else
+                    {
+                        string result = System.Text.Encoding.UTF8.GetString(www.downloadHandler.data);
 
-                    callback(JsonUtility.FromJson<ScoresResDto>(result).data);
+                        callback(JsonUtility.FromJson<ScoresResDto>(result).data);
+                    }
                 }
             }
         }
@@ -39,9 +47,17 @@ namespace Api
                 yield return www.SendWebRequest();
                 if (www.isDone)
                 {
-                    string result = System.Text.Encoding.UTF8.GetString(www.downloadHandler.data);
+                    Debug.Log(www.result);
+                    if (www.result == UnityWebRequest.Result.ConnectionError)
+                    {
+                        Debug.Log("Server Connection Error");
+                    }
+                    else
+                    {
+                        string result = System.Text.Encoding.UTF8.GetString(www.downloadHandler.data);
 
-                    callback(JsonUtility.FromJson<Scores>(result));
+                        callback(JsonUtility.FromJson<Scores>(result));
+                    }
                 }
             }
         }
@@ -62,9 +78,16 @@ namespace Api
                 yield return www.SendWebRequest();
                 if (www.isDone)
                 {
-                    string result = System.Text.Encoding.UTF8.GetString(www.downloadHandler.data);
+                    if (www.result == UnityWebRequest.Result.ConnectionError)
+                    {
+                        Debug.Log("Server Connection Error");
+                    }
+                    else
+                    {
+                        string result = System.Text.Encoding.UTF8.GetString(www.downloadHandler.data);
 
-                    callback(JsonUtility.FromJson<RecordResultDto>(result));
+                        callback(JsonUtility.FromJson<RecordResultDto>(result));    
+                    }
                 }
             }
         }
