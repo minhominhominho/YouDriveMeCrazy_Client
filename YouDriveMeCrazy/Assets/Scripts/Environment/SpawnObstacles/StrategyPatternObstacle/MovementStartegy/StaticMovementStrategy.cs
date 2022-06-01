@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StaticMovementStrategy : MonoBehaviour, MovementStartegy
 {
-    public void Move()
+    public void Move(float speed, Vector3 spawnPos, Vector3 destPos)
     {
 
     }

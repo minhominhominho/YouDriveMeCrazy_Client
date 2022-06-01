@@ -2,44 +2,62 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Obstacles { Empty, Chicken, Doe, Fox, Horse, Man, Bus, BlueCar, Van, Truck }
-public enum ObstacleType { Empty, Idle, Walk, Jump }
+public enum ObstacleEnum { Empty, Chicken, Doe, Fox, Horse, Man, Bus, BlueCar, Van, Truck }
+public enum MovementEnum { Empty, Static, ForwardMoving, StaccatoMoving }
+public enum AttributeEnum { Empty, KlaxonInteractable, Jumping, Rotating }
 
 public class ObstacleSpawnManager : MonoBehaviour
 {
-    // All Obstacle objects
-    public GameObject[] allObstacles;
+    public GameObject[] allObstacles;           // All Obstacle objects
+    public ObstacleEnum obstacleToBeSpawned;    // The obstacle object to spawn in this area
+    public MovementEnum movementStrategy;       // Movement Strategy
+    public AttributeEnum[] attributeStrategy;   // Attribute Strategy
 
-    // The obstacle object to spawn in this area
-    public Obstacles obstacleToBeSpawned;
+    private GameObject obstaclePrefab;
+    private StrategyPatternObstacle strategyPatternObstacle;
 
-    public float timer = 15;
+
     public float speed = 5;
     public Transform spawnPos;
     public Transform destPos;
-    public bool isKlaxonInteractable;
-    public float klaxonRequiredTime;
     private bool isSpawned;
 
 
     private void Start()
     {
-        if (obstacleToBeSpawned == Obstacles.Empty)
+        if (obstacleToBeSpawned == ObstacleEnum.Empty)
         {
-            obstacleToBeSpawned = (Obstacles)Random.Range(1, System.Enum.GetValues(typeof(Obstacles)).Length);
+            obstacleToBeSpawned = (ObstacleEnum)Random.Range(1, System.Enum.GetValues(typeof(ObstacleEnum)).Length);
         }
+        obstaclePrefab = allObstacles[(int)obstacleToBeSpawned - 1];
+        strategyPatternObstacle = obstaclePrefab.GetComponent<StrategyPatternObstacle>();
+
+        switch (movementStrategy)
+        {
+            case MovementEnum.Empty:
+                movementStrategy = (MovementEnum)Random.Range(1, System.Enum.GetValues(typeof(MovementEnum)).Length);
+                break;
+            case MovementEnum.Static:
+                //obstaclePrefab.AddComponent <>
+                break;
+            case MovementEnum.ForwardMoving:
+                break;
+            case MovementEnum.StaccatoMoving:
+                break;
+        }
+
     }
 
     public void SpawnRandomAnimal()
     {
-        // 犁积己 规瘤
-        if (!isSpawned)
-        {
-            isSpawned = true;
-            GameObject g = Instantiate(allObstacles[(int)obstacleToBeSpawned - 1], spawnPos.position, Quaternion.identity);
+        // // 犁积己 规瘤
+        // if (!isSpawned)
+        // {
+        //     isSpawned = true;
+        //     GameObject g = Instantiate(allObstacles[(int)obstacleToBeSpawned - 1], spawnPos.position, Quaternion.identity);
 
-            g.GetComponent<Obstacle>().setObstacle(speed, isKlaxonInteractable, klaxonRequiredTime);
-            g.transform.LookAt(destPos.position, transform.up);
-        }
+        //     g.GetComponent<Obstacle>().setObstacle(speed, isKlaxonInteractable, klaxonRequiredTime);
+        //     g.transform.LookAt(destPos.position, transform.up);
+        // }
     }
 }

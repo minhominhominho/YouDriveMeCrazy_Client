@@ -9,29 +9,28 @@ public class StrategyPatternObstacle : MonoBehaviour
 
 
     public bool isSpawned;
-    public float speed = 10f;
-    private Transform car;
 
-
-
-    void Start()
-    {
-        // 애니메이션 설정
-        car = CarController.carController.transform;
-    }
+    private float speed = 10f;
+    private Vector3 spawnPos;
+    private Vector3 destPos;
+    
 
     public void setObstacle(float speed, bool isKlaxonInteractable, float time)
     {
         this.speed = speed;
-
-     
-
         isSpawned = true;
     }
 
     void Update()
     {
-      
+        if (isSpawned)
+        {
+            movementStartegy.Move(speed,spawnPos,destPos);
+            foreach (AttributeStartegy a in attributeStartegies)
+            {
+                a.Excute();
+            }
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
