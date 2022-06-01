@@ -7,6 +7,7 @@ public class Title : MonoBehaviour
     public GameObject mainMenuHolder;
     public GameObject optionMenuHolder;
     public GameObject scoreMenuHolder;
+    public GameObject TutorialHolder;
 
     public string SceneToLoad;
     public string SceneToLoad2;
@@ -14,8 +15,12 @@ public class Title : MonoBehaviour
 
     void Start()
     {
-        MainMenu();
         // SceneManager.LoadScene("Test");
+
+        mainMenuHolder.SetActive(true);
+        optionMenuHolder.SetActive(false);
+        scoreMenuHolder.SetActive(false);
+        TutorialHolder.SetActive(false);
     }
     void Update()
     {
@@ -26,18 +31,28 @@ public class Title : MonoBehaviour
         mainMenuHolder.SetActive(true);
         optionMenuHolder.SetActive(false);
         scoreMenuHolder.SetActive(false);
+        TutorialHolder.SetActive(false);
     }
     public void OptionMenu()
     {
         mainMenuHolder.SetActive(false);
         optionMenuHolder.SetActive(true);
         scoreMenuHolder.SetActive(false);
+        TutorialHolder.SetActive(false);
     }
     public void ScoreMenu()
     {
         mainMenuHolder.SetActive(false);
         optionMenuHolder.SetActive(false);
         scoreMenuHolder.SetActive(true);
+        TutorialHolder.SetActive(false);
+    }
+    public void TutorialMenu()
+    {
+        mainMenuHolder.SetActive(false);
+        optionMenuHolder.SetActive(false);
+        scoreMenuHolder.SetActive(false);
+        TutorialHolder.SetActive(true);
     }
     public void LoadGame()
     {
