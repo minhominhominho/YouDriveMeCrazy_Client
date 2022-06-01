@@ -98,7 +98,7 @@ namespace Photon
         {
             // TODO: 유효한 닉네임의 기준 정해야 함
             //return nicknameInput.text.Length > 0;
-           return SavingData.myName != null ? SavingData.myName.Length : 6;
+           return SavingData.myName != null ? SavingData.myName.Length : true;
         }
 
         private string CreateRandomString(int length)
