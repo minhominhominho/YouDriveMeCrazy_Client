@@ -15,6 +15,7 @@ public class StageClearZone : MonoBehaviour
         {
             GameManager.Instance.StageClear();
             this.gameObject.GetComponent<Collider>().enabled = false;
+
         }
     }
 }

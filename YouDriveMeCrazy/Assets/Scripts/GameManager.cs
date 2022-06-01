@@ -18,22 +18,27 @@ public static class SavingData
     public static int presentStageNum;
     public static string player1Name;
     public static string player2Name;
-    //로그인 성공시 저장되는 이름
-    public static string myName;
 }
 
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-    public enum GameState { GameClear = 0, KillAnimal=1, KillPeople = 2, HitCar=3,  LaneCross = 4, TrafficLightViolation = 5, MidLainCross = 6 ,OutOfTheWay = 7};
+    public enum GameState { GameClear = 0, KillAnimal=1, KillPeople = 2, HitCar=3,  LaneCross = 4, TrafficLightViolation = 5, MidLaneCross = 6 ,OutOfTheWay = 7};
 
     public static GameManager Instance;
     [SerializeField] private GameObject inputManager;
 
     [Header("Audio")]
     #region Audio
-    [SerializeField] private AudioSource speaker;
+    [SerializeField] private AudioSource bgmSpeaker;
+    [SerializeField] private AudioClip gamePlaySound;
+    [SerializeField] private AudioClip gameClearSound;
     [SerializeField] private AudioClip gameOverSound;
+    [Space]
+    [SerializeField] private AudioSource sfxSpeaker;
+    [SerializeField] private AudioClip startEngineSound;
+    [SerializeField] private AudioClip clearZoneEnterSound;
+    [SerializeField] private AudioClip hitCarSound;
     #endregion
 
     [Header("UI")]
@@ -52,9 +57,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] private Text timerText;
     [SerializeField] private Text clearTimeText;
     [SerializeField] private Text finalClearTimeText;
+    [SerializeField] private Text gameOverReasonText;
     #endregion
 
-    private bool isDev = true; 
 
     #region GameState
 
@@ -122,6 +127,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             currentStageClearTime += Time.deltaTime;
         }
 
+        // by 상민, @정민호 이건 왜 만든거?
         if(Input.GetKeyDown(pauseKey)){
             Pause();
         }
@@ -151,6 +157,17 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void GameStart() { 
         isGameStart = true;
         Time.timeScale = 1;
+
+        if(bgmSpeaker!=null && gamePlaySound != null){
+            bgmSpeaker.loop = true;
+            bgmSpeaker.PlayOneShot(gamePlaySound);
+        }
+        if (sfxSpeaker != null && startEngineSound != null)
+        {
+            sfxSpeaker.loop = false;
+            sfxSpeaker.PlayOneShot(startEngineSound);
+        }
+
         if (gameStroyPanel != null) { gameStroyPanel.SetActive(false); }
         if (gamePlayPanel != null) { gamePlayPanel.SetActive(true); }
     }
@@ -167,6 +184,13 @@ public class GameManager : MonoBehaviourPunCallbacks
             print("stage" + SavingData.presentStageNum + " clear!!");
             print("You took" + currentStageClearTime + "seconds!");
 
+            if (sfxSpeaker != null && clearZoneEnterSound != null)
+            {
+                sfxSpeaker.loop = false;
+                sfxSpeaker.PlayOneShot(clearZoneEnterSound);
+            }
+
+
             // game clear
             if (SavingData.presentStageNum == 2)
             {
@@ -176,19 +200,15 @@ public class GameManager : MonoBehaviourPunCallbacks
                 
                 // by 상연,
                 // 클리어타임 서버에 전송
-                if (!isDev)
-                {
-                    StartCoroutine(Api.Api.InsertScore(SavingData.player1Name, SavingData.player2Name, SavingData.timeReocrd, scores =>
-                        {
-                            Debug.Log(scores.ToString());
-                        })
-                    );    
-                }
-                
+                StartCoroutine(Api.Api.InsertScore(SavingData.player1Name, SavingData.player2Name, SavingData.timeReocrd, scores =>
+                    {
+                        Debug.Log(scores.ToString());
+                    })
+                );
                 
                 // by 상연,
                 // 업적 관련 정보 전송
-                // SendRecord();
+                SendRecord();
             }
             else
             {
@@ -199,27 +219,30 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     // by 상민, 다른 클래스에서 GameManager.Instance.GameOver() 호출, 경고음 재생 3초 후에 GameOverPanel 활성화
-    public void GameOver(GameState gameOverState)
+    public void GameOver(GameState gameState)
     {
         // by 상연,
         // 클락션, 와이퍼 작동 횟수 등 실제 클리어 데이터 넣어야 함
-        if (!isDev)
-        {
-            string playerName = PhotonNetwork.IsMasterClient ? SavingData.player1Name : SavingData.player2Name;
-            StartCoroutine(Api.Api.Record(new RecordDto(playerName, (int) gameOverState, 100, 10, 10, float.Parse(SavingData.timeReocrd)), dto => { print(dto.ToString()); }));    
-        }
-
+        string playerName = PhotonNetwork.IsMasterClient ? SavingData.player1Name : SavingData.player2Name;
+        StartCoroutine(Api.Api.Record(new RecordDto(playerName, (int) gameState, 100, 10, 10, float.Parse(SavingData.timeReocrd)), dto => { print(dto.ToString()); }));
+        
         if (!isGameEnd)
         {
             print("GameOver");
             isGameEnd = true;
 
-            speaker.loop = false;
-            speaker.PlayOneShot(gameOverSound);
+            if (sfxSpeaker != null && gameOverSound != null)
+            {
+                sfxSpeaker.loop = false;
+                sfxSpeaker.PlayOneShot(gameOverSound);
+            }
+
         
             currentStageClearTime = 0;
-            StartCoroutine(CallGameOver());
+            StartCoroutine(CallGameOver(gameState));
             
+
+                
             // by 상연,
             // 업적 관련 정보 전송
             // SendRecord();
@@ -233,6 +256,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(3f);
         if (stageClearPanel != null)
         { stageClearPanel.SetActive(true); }
+
+
+        if (sfxSpeaker != null && gameClearSound != null)
+        {
+            sfxSpeaker.loop = false;
+            sfxSpeaker.PlayOneShot(gameClearSound);
+        }
 
         int minute = (int)currentStageClearTime / 60;
         int second = (int)currentStageClearTime % 60;
@@ -250,11 +280,41 @@ public class GameManager : MonoBehaviourPunCallbacks
         finalClearTimeText.text = $"Clear Time :  {minute} : {second}";
     }
 
-    public IEnumerator CallGameOver()
+    public IEnumerator CallGameOver(GameState gameState)
     {
         yield return new WaitForSeconds(3f);
         if (gameOverPanel != null)
             gameOverPanel.SetActive(true);
+        
+        switch (gameState)
+        {
+            case GameState.KillAnimal:
+                gameOverReasonText.text = "You kill animal";
+                break;
+            case GameState.KillPeople:
+                gameOverReasonText.text = "You hit people";
+                break;
+            case GameState.HitCar:
+                gameOverReasonText.text = "You crash into a car";
+                if (sfxSpeaker != null && hitCarSound != null)
+                {
+                    sfxSpeaker.loop = false;
+                    sfxSpeaker.PlayOneShot(hitCarSound);
+                }
+                break;
+            case GameState.LaneCross:
+                gameOverReasonText.text = "You cross the white lane";
+                break;
+            case GameState.TrafficLightViolation:
+                gameOverReasonText.text = "You violate the traffic light";
+                break;
+            case GameState.MidLaneCross:
+                gameOverReasonText.text = "You cross the mid lane";
+                break;
+            case GameState.OutOfTheWay:
+                gameOverReasonText.text = "You have entered the wrong path";
+                break;
+        }
     }
 
     #region GameFlowControl
@@ -305,8 +365,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void Restart()
     {
         if (PhotonNetwork.CurrentRoom.PlayerCount == 2 || Cheat.cheatMode)
-        {
-            speaker.Stop();
+        {      
             PhotonView photonView = PhotonView.Get(this);
             photonView.RPC("SyncRestartStage", RpcTarget.All);
         }
@@ -355,6 +414,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SyncNextStage()
     {
+        if (bgmSpeaker != null) { bgmSpeaker.Stop(); }
+        if (sfxSpeaker != null) { sfxSpeaker.Stop(); }
         PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer.ActorNumber);
         PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
     }
@@ -363,6 +424,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SyncRestartStage()
     {
+        if (bgmSpeaker != null) { bgmSpeaker.Stop(); }
+        if (sfxSpeaker != null) { sfxSpeaker.Stop(); }
         PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer.ActorNumber);
         PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().name);
     }
@@ -371,6 +434,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SyncLeaveStage()
     {
+        if (bgmSpeaker != null) { bgmSpeaker.Stop(); }
+        if (sfxSpeaker != null) { sfxSpeaker.Stop(); }
         PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer.ActorNumber);
         PhotonNetwork.LoadLevel(1);
     }
