@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
 
-public class GameStroyPanelController : MonoBehaviour
+public class GameStoryPanelController : MonoBehaviour
 {
 
     [SerializeField] private GameObject Stage1Story;
@@ -23,11 +23,11 @@ public class GameStroyPanelController : MonoBehaviour
         by 상민, SavingData 동기화 함수 만든 후 SceneManager.GetActiveScene().buildIndex == 2 지우고 SavingData.presentStageNum == 1로 변경하기
         */
         
-        if(SceneManager.GetActiveScene().buildIndex == 2){
+        if(SceneManager.GetActiveScene().name == "Stage1"){
             if (Stage1Story != null) { Stage1Story.SetActive(true); }
             if (Stage2Story != null) { Stage2Story.SetActive(false); }
         }
-        else{
+        else if (SceneManager.GetActiveScene().name == "Stage2"){
             if (Stage1Story != null) { Stage1Story.SetActive(false); }
             if (Stage2Story != null) { Stage2Story.SetActive(true); }
         }

@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 using Debug = UnityEngine.Debug;
+using TMPro;
 
 
 public static class SavingData
@@ -55,10 +56,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     [Header("Time")]
     #region Time
-    [SerializeField] private Text timerText;
-    [SerializeField] private Text clearTimeText;
-    [SerializeField] private Text finalClearTimeText;
-    [SerializeField] private Text gameOverReasonText;
+    [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private TextMeshProUGUI clearTimeText;
+    [SerializeField] private TextMeshProUGUI finalClearTimeText;
+    [SerializeField] private TextMeshProUGUI gameOverReasonText;
     #endregion
 
 
