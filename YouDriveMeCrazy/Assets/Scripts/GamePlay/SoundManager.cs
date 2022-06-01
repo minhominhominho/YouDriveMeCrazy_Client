@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public enum Type { all = 0, bgm, gameSfx, carSfx, obstacleSfx }
 public enum BGM { titleBgm = 0, waitingRoomBgm, stageBgm };
-public enum GameSfx { gameFail = 0, stageClear, enterClearZone };
+public enum GameSfx { gameFail = 0, stageClear, enterClearZone, police };
 public enum CarSfx { carKlaxon = 0, carBreak, carWiper, startEngine };
 public enum ObstacleSfx { warning = 0, animalRunaway, dirt, hitCar };
 public class SoundManager : MonoBehaviour

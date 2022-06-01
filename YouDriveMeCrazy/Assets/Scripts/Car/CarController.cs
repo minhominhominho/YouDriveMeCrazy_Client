@@ -29,18 +29,6 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
     private bool wasBreakPressed;
     #endregion
 
-    [Header("Audio")]
-    #region Audio
-    [SerializeField] private AudioSource sfxSpeaker;
-    [SerializeField] private AudioClip breakSound;
-    [SerializeField] private AudioClip klaxonSound;
-    [SerializeField] private AudioClip wiperSound;
-    [SerializeField] private AudioClip throwDirtSound;
-    // by 상민, @정민호 어디에 추가해야 할지 모르겠어요
-    // sfxSpeaker.loop = false;
-    // sfxSpeaker.PlayOneShot(gameClearSound);
-    #endregion
-
     [Header("UI")]
     #region UI
     public GameObject speedIndicatorArrow;
@@ -186,11 +174,7 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
             inkjetImg.color = new Vector4(inkjetImg.color.r, inkjetImg.color.g, inkjetImg.color.b, 1);
         }
 
-        if(sfxSpeaker != null && throwDirtSound != null){
-            sfxSpeaker.loop = false;
-            sfxSpeaker.PlayOneShot(throwDirtSound);
-        }
-
+        SoundManager.Instance.PlayObstacleSfx(ObstacleSfx.dirt);
 
         this.requiredWiperPressing = requiredWiperPressing;
         StartCoroutine(extendInkjetScale());

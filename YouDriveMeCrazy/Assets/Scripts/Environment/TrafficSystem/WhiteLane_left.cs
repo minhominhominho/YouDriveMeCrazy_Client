@@ -8,11 +8,6 @@ public class WhiteLane_left : MonoBehaviour
     [SerializeField ] private GameObject rightCollider;
     [HideInInspector] public bool isBtnTurnOn = false;
 
-    private void Start() {
-        //transform.parent.gameObject.GetComponent<MeshRenderer>().enabled = false;
-    }
-
-
     // by 상민, 왼쪽 콜라이더 접근시 CarController의 Btn이 켜져있는지 꺼져있는지 판단함
     // rightBtn켜져있으면 본인 콜라이더, 오른쪽 콜라이더 모두 enabled = false;
     private void OnTriggerEnter(Collider other) {

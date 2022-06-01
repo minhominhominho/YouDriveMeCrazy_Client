@@ -8,11 +8,6 @@ public class WhiteLane_right : MonoBehaviour
     [SerializeField ] private GameObject leftCollider;
     [HideInInspector] public bool isBtnTurnOn = false;
 
-    private void Start()
-    {
-        
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Car"){

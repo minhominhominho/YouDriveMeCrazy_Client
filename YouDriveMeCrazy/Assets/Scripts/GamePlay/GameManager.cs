@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 using Debug = UnityEngine.Debug;
+using TMPro;
 
 
 public static class SavingData
@@ -29,19 +30,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     public static GameManager Instance;
     [SerializeField] private GameObject inputManager;
 
-    [Header("Audio")]
-    #region Audio
-    [SerializeField] private AudioSource bgmSpeaker;
-    [SerializeField] private AudioClip gamePlaySound;
-    [SerializeField] private AudioClip gameClearSound;
-    [SerializeField] private AudioClip gameOverSound;
-    [Space]
-    [SerializeField] private AudioSource sfxSpeaker;
-    [SerializeField] private AudioClip startEngineSound;
-    [SerializeField] private AudioClip clearZoneEnterSound;
-    [SerializeField] private AudioClip hitCarSound;
-    #endregion
-
     [Header("UI")]
     #region UI
     [SerializeField] private KeyCode pauseKey;
@@ -55,10 +43,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     [Header("Time")]
     #region Time
-    [SerializeField] private Text timerText;
-    [SerializeField] private Text clearTimeText;
-    [SerializeField] private Text finalClearTimeText;
-    [SerializeField] private Text gameOverReasonText;
+    [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private TextMeshProUGUI clearTimeText;
+    [SerializeField] private TextMeshProUGUI finalClearTimeText;
+    [SerializeField] private TextMeshProUGUI gameOverReasonText;
     #endregion
 
 
@@ -115,6 +103,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (gameClearPanel != null) { gameClearPanel.SetActive(false); }
         if (gameOverPanel != null) { gameOverPanel.SetActive(false); }
 
+        SoundManager.Instance.PlayBgm(BGM.stageBgm);
+
         MatchSavingData();
     }
 
@@ -167,16 +157,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         isGameStart = true;
         Time.timeScale = 1;
 
-        if (bgmSpeaker != null && gamePlaySound != null)
-        {
-            bgmSpeaker.loop = true;
-            bgmSpeaker.PlayOneShot(gamePlaySound);
-        }
-        if (sfxSpeaker != null && startEngineSound != null)
-        {
-            sfxSpeaker.loop = false;
-            sfxSpeaker.PlayOneShot(startEngineSound);
-        }
+        SoundManager.Instance.PlayCarSfx(CarSfx.startEngine);
 
         if (gameStroyPanel != null) { gameStroyPanel.SetActive(false); }
         if (gamePlayPanel != null) { gamePlayPanel.SetActive(true); }
@@ -194,12 +175,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             print("stage" + SavingData.presentStageNum + " clear!!");
             print("You took" + currentStageClearTime + "seconds!");
 
-            if (sfxSpeaker != null && clearZoneEnterSound != null)
-            {
-                sfxSpeaker.loop = false;
-                sfxSpeaker.PlayOneShot(clearZoneEnterSound);
-            }
-
+            SoundManager.Instance.PlayGameSfx(GameSfx.enterClearZone);
 
             // game clear
             if (SavingData.presentStageNum == 2)
@@ -240,24 +216,16 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             print("GameOver");
             isGameEnd = true;
-
-            if (sfxSpeaker != null && gameOverSound != null)
-            {
-                sfxSpeaker.loop = false;
-                sfxSpeaker.PlayOneShot(gameOverSound);
-            }
-
+            
+            SoundManager.Instance.PlayGameSfx(GameSfx.police);
 
             currentStageClearTime = 0;
             StartCoroutine(CallGameOver(gameState));
-
-
 
             // by 상연,
             // 업적 관련 정보 전송
             // SendRecord();
         }
-
     }
 
 
@@ -267,12 +235,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (stageClearPanel != null)
         { stageClearPanel.SetActive(true); }
 
-
-        if (sfxSpeaker != null && gameClearSound != null)
-        {
-            sfxSpeaker.loop = false;
-            sfxSpeaker.PlayOneShot(gameClearSound);
-        }
+        SoundManager.Instance.PlayGameSfx(GameSfx.stageClear);
 
         int minute = (int)currentStageClearTime / 60;
         int second = (int)currentStageClearTime % 60;
@@ -292,25 +255,19 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public IEnumerator CallGameOver(GameState gameState)
     {
-        yield return new WaitForSeconds(3f);
-        if (gameOverPanel != null)
-            gameOverPanel.SetActive(true);
-
         switch (gameState)
         {
             case GameState.KillAnimal:
                 gameOverReasonText.text = "You kill animal";
+                SoundManager.Instance.PlayObstacleSfx(ObstacleSfx.hitCar);
                 break;
             case GameState.KillPeople:
                 gameOverReasonText.text = "You hit people";
+                SoundManager.Instance.PlayObstacleSfx(ObstacleSfx.hitCar);
                 break;
             case GameState.HitCar:
                 gameOverReasonText.text = "You crash into a car";
-                if (sfxSpeaker != null && hitCarSound != null)
-                {
-                    sfxSpeaker.loop = false;
-                    sfxSpeaker.PlayOneShot(hitCarSound);
-                }
+                SoundManager.Instance.PlayObstacleSfx(ObstacleSfx.hitCar);
                 break;
             case GameState.LaneCross:
                 gameOverReasonText.text = "You cross the white lane";
@@ -325,6 +282,13 @@ public class GameManager : MonoBehaviourPunCallbacks
                 gameOverReasonText.text = "You have entered the wrong path";
                 break;
         }
+
+        yield return new WaitForSeconds(4f);
+        SoundManager.Instance.PlayGameSfx(GameSfx.gameFail);
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(true);
+
+
     }
 
     #region GameFlowControl
@@ -427,8 +391,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SyncNextStage()
     {
-        if (bgmSpeaker != null) { bgmSpeaker.Stop(); }
-        if (sfxSpeaker != null) { sfxSpeaker.Stop(); }
+        SoundManager.Instance.Stop(Type.all);
         PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer.ActorNumber);
         PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
     }
@@ -437,8 +400,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SyncRestartStage()
     {
-        if (bgmSpeaker != null) { bgmSpeaker.Stop(); }
-        if (sfxSpeaker != null) { sfxSpeaker.Stop(); }
+        SoundManager.Instance.Stop(Type.all);
         PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer.ActorNumber);
         PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().name);
     }
@@ -447,8 +409,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SyncLeaveStage()
     {
-        if (bgmSpeaker != null) { bgmSpeaker.Stop(); }
-        if (sfxSpeaker != null) { sfxSpeaker.Stop(); }
+        SoundManager.Instance.Stop(Type.all);
         PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer.ActorNumber);
         PhotonNetwork.LoadLevel(1);
     }
