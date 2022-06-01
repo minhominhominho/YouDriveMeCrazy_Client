@@ -91,5 +91,28 @@ namespace Api
                 }
             }
         }
+        
+        public static IEnumerator GetRecord(string playerName, Action<RecordResultDto> callback)
+        {
+            string url = "http://localhost:8080/record/" + playerName;
+            using (UnityWebRequest www = UnityWebRequest.Get(url))
+            {
+                yield return www.SendWebRequest();
+                if (www.isDone)
+                {
+                    Debug.Log(www.result);
+                    if (www.result == UnityWebRequest.Result.ConnectionError)
+                    {
+                        Debug.Log("Server Connection Error");
+                    }
+                    else
+                    {
+                        string result = System.Text.Encoding.UTF8.GetString(www.downloadHandler.data);
+
+                        callback(JsonUtility.FromJson<RecordResultDto>(result));
+                    }
+                }
+            }
+        }
     }
 }
