@@ -58,6 +58,10 @@ public class AuthPage : MonoBehaviour
         UnityWebRequest webRequest =  UnityWebRequest.Get(loginUrll);
       
         yield return webRequest.SendWebRequest();
+        if(webRequest.result != UnityWebRequest.Result.Success){
+            Debug.Log(webRequest.error);
+            Debug.Log("뭔가 이상해");
+        }else{
         var textt = webRequest.downloadHandler.text;
         Debug.Log(textt);
         if(textt.Equals("true")){
@@ -68,6 +72,8 @@ public class AuthPage : MonoBehaviour
         }else{
             dialogHolder.SetActive(true);
         }
+        }
+        
         
        // User user = JsonUtility.FromJson<User>(textt);
         //Debug.Log(user.email);

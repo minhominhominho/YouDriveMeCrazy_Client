@@ -24,7 +24,10 @@ namespace ScoreBoard
 
         public override string ToString()
         {
-            return player1 + "\t" + player2 + "\t" + clearTime;
+            int minute = (int)clearTime / 60;
+            int second = (int)clearTime % 60;
+            
+            return player1 + "\t" + player2 + "\t \t" + $"{minute} : {second}";
         }
     }
 }
