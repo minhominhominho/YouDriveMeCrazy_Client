@@ -18,6 +18,7 @@ public static class SavingData
     public static int presentStageNum;
     public static string player1Name;
     public static string player2Name;
+    public static string myName;
 }
 
 
