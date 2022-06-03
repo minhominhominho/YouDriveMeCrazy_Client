@@ -18,9 +18,11 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
     #region Player Input
     // Player1
     [HideInInspector] public bool isBreakPressing, isLeftTurnPressing, isRightTurnSignalPressing, isKlaxonPressing;
+    private bool wasBreakPressing, wasLeftTurnPressing, wasRightTurnSignalPressing, wasKlaxonPressing;
 
     //Player2
     [HideInInspector] public bool isAccelPressing, isRightTurnPressing, isLeftTurnSignalPressing, isWiperPressing;
+    private bool wasAccelPressing, wasRightTurnPressing, wasLeftTurnSignalPressing, wasWiperPressing;
     private bool preIsWiperPressing;
     private int wiperCount;
 
@@ -80,6 +82,7 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
     {
         if (!GameManager.Instance.isGameEnd)
         {
+            updateSfx();
             calculateMovementInput();
             UpdateWheelPhysics();
             UpdateWheelTransforms();
@@ -113,6 +116,46 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
         if (isLeftTurnSignalPressing) { leftTurnSignalUI.color = Color.red; } else { leftTurnSignalUI.color = Color.black; }
         if (isWiperPressing) { wiperUI.color = Color.red; } else { wiperUI.color = Color.black; }
     }
+
+    private void updateSfx()
+    {
+        // 아래 빈칸들에 각각 소리 재생 넣기
+        if (!wasBreakPressing && isBreakPressing) { }
+        if (!wasLeftTurnPressing && isLeftTurnPressing) { }
+        if (!wasRightTurnSignalPressing && isRightTurnSignalPressing) { }   // 딸깍 소리 재생하면 될듯
+        if (!wasKlaxonPressing && isKlaxonPressing) { }
+
+        // if (!wasAccelPressing && isAccelPressing) { }   
+        if (!wasRightTurnPressing && isRightTurnPressing) { }
+        if (!wasLeftTurnSignalPressing && isLeftTurnSignalPressing) { }
+        if (!wasWiperPressing && isWiperPressing) { }
+
+
+        // 악셀은 사운드매니저에 따로 오디오소스를 만드는게 좋을듯
+        // 항상 소리가 나는데, accelVolume에 따라 소리 크기가 달라지게
+        float accelVolume = rb.velocity.magnitude * 10;
+        accelVolume = Mathf.Clamp(accelVolume, 0, 1);
+        // 여기에 소리 넣기
+
+
+        // 클락션도 사운드매니저에 따로 오디오소스를 만드는게 좋을듯
+        // 다른건 버튼 다운 됐을때 한번 재생하면 끝인데 클락션은 누르고있는동안은 계속 소리나다가 떼는 순간 바로 소리가 꺼져야함
+        if (!isKlaxonPressing)
+        {
+            // 클락션 소리 끄기
+        }
+
+        wasBreakPressing = isBreakPressing;
+        wasLeftTurnPressing = isLeftTurnPressing;
+        wasRightTurnSignalPressing = isRightTurnSignalPressing;
+        wasKlaxonPressing = isKlaxonPressing;
+
+        wasBreakPressing = isAccelPressing;
+        wasRightTurnPressing = isRightTurnPressing;
+        wasLeftTurnSignalPressing = isLeftTurnSignalPressing;
+        wasWiperPressing = isWiperPressing;
+    }
+
 
     private void updateSpeedIndicator()
     {
