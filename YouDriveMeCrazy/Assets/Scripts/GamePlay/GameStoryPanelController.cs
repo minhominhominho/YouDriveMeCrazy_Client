@@ -9,20 +9,9 @@ public class GameStoryPanelController : MonoBehaviour
 
     [SerializeField] private GameObject Stage1Story;
     [SerializeField] private GameObject Stage2Story;
-    // Start is called before the first frame update
+
     void Start()
     {
-        
-        /*
-        if (SavingData.presentStageNum == 1)
-        {
-            if (Stage1Story != null) { Stage1Story.SetActive(true); }
-            if (Stage2Story != null) { Stage2Story.SetActive(false); }
-        }
-        
-        by 상민, SavingData 동기화 함수 만든 후 SceneManager.GetActiveScene().buildIndex == 2 지우고 SavingData.presentStageNum == 1로 변경하기
-        */
-        
         if(SceneManager.GetActiveScene().name == "Stage1"){
             if (Stage1Story != null) { Stage1Story.SetActive(true); }
             if (Stage2Story != null) { Stage2Story.SetActive(false); }
@@ -30,6 +19,20 @@ public class GameStoryPanelController : MonoBehaviour
         else if (SceneManager.GetActiveScene().name == "Stage2"){
             if (Stage1Story != null) { Stage1Story.SetActive(false); }
             if (Stage2Story != null) { Stage2Story.SetActive(true); }
+        }
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                if (PhotonNetwork.CurrentRoom.PlayerCount == 2 || Cheat.cheatMode)
+                {
+                    TurnOffStory();
+                }
+            }
         }
     }
 
