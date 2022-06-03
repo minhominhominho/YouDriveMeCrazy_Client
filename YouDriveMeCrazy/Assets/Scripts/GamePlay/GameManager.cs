@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     [Header("UI")]
     #region UI
-    [SerializeField] private KeyCode pauseKey;
+    private KeyCode pauseKey;
     [SerializeField] private GameObject gameStroyPanel;
     [SerializeField] private GameObject gamePlayPanel;
     [SerializeField] private GameObject gameOptionPanel;
@@ -124,13 +124,18 @@ public class GameManager : MonoBehaviourPunCallbacks
             currentStageClearTime += Time.deltaTime;
         }
 
-        // by 상민, @정민호 이건 왜 만든거?
-        if (Input.GetKeyDown(pauseKey))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             Pause();
         }
     }
 
+    void initializeSavingData(){
+        SavingData.player1Name = "";
+        SavingData.player2Name = "";
+        SavingData.presentStageNum = 0;
+        SavingData.timeReocrd = "";
+    }
     // by 상연,
     // 게임 클리어 or 게임오버 시 업적 관련 정보들을 서버로 전송
     private void SendRecord()
@@ -209,8 +214,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         // by 상연,
         // 클락션, 와이퍼 작동 횟수 등 실제 클리어 데이터 넣어야 함
+        // @정민호 수정 maxSpeed
         string playerName = PhotonNetwork.IsMasterClient ? SavingData.player1Name : SavingData.player2Name;
-        StartCoroutine(Api.Api.Record(new RecordDto(playerName, (int)gameState, 100, 10, 10, float.Parse(SavingData.timeReocrd)), dto => { print(dto.ToString()); }));
+        StartCoroutine(Api.Api.Record(new RecordDto(playerName, (int)gameState, CarController.carController.MaxSpeed_Accievement,
+            CarController.carController.WiperCount_Accievement, CarController.carController.KlaxonCount_Accievement, 
+            float.Parse(SavingData.timeReocrd)), dto => { print(dto.ToString()); }));
 
         if (!isGameEnd)
         {
@@ -221,10 +229,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             currentStageClearTime = 0;
             StartCoroutine(CallGameOver(gameState));
-
-            // by 상연,
-            // 업적 관련 정보 전송
-            // SendRecord();
         }
     }
 
@@ -287,8 +291,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         SoundManager.Instance.PlayGameSfx(GameSfx.gameFail);
         if (gameOverPanel != null)
             gameOverPanel.SetActive(true);
+    }
 
-
+    private void MatchSavingData()
+    {
+        if (!PhotonNetwork.IsMasterClient) { return; }
+        PhotonView photonView = PhotonView.Get(this);
+        photonView.RPC("SyncSavingData", RpcTarget.All, SavingData.player1Name, SavingData.player2Name, SavingData.presentStageNum, SavingData.timeReocrd);
     }
 
     #region GameFlowControl
@@ -319,7 +328,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonView photonView = PhotonView.Get(this);
             photonView.RPC("SyncResume", RpcTarget.All);
         }
-
     }
 
     public void Next()
@@ -352,13 +360,26 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void Leave()
     {
         Time.timeScale = 1;
-        SavingData.presentStageNum = 1;
+        // 다 끝낸 상태이면 presentNum 건들이지 않기
         if (PhotonNetwork.IsMasterClient)
         {
             if (PhotonNetwork.CurrentRoom.PlayerCount == 2 || Cheat.cheatMode)
             {
                 PhotonView photonView = PhotonView.Get(this);
                 photonView.RPC("SyncLeaveStage", RpcTarget.All);
+            }
+        }
+        MatchSavingData();
+    }
+
+    public void MainMenu(){
+        Time.timeScale = 1;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 2 || Cheat.cheatMode)
+            {
+                PhotonView photonView = PhotonView.Get(this);
+                photonView.RPC("SyncMainMenu", RpcTarget.All);
             }
         }
         MatchSavingData();
@@ -409,17 +430,22 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SyncLeaveStage()
     {
+        initializeSavingData();
         SoundManager.Instance.Stop(Type.all);
         PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer.ActorNumber);
-        PhotonNetwork.LoadLevel(1);
+        PhotonNetwork.LoadLevel("WaitingRoom");
     }
 
-    private void MatchSavingData()
+    [PunRPC]
+    private void SyncMainMenu()
     {
-        if (!PhotonNetwork.IsMasterClient) { return; }
-        PhotonView photonView = PhotonView.Get(this);
-        photonView.RPC("SyncSavingData", RpcTarget.All, SavingData.player1Name, SavingData.player2Name, SavingData.presentStageNum, SavingData.timeReocrd);
+        initializeSavingData();
+        SoundManager.Instance.Stop(Type.all);
+        PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer.ActorNumber);
+        PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene("Title");
     }
+
 
     [PunRPC]
     private void SyncSavingData(string player1Name, string player2Name, int presentStageNum, string timeRecord)

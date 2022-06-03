@@ -10,7 +10,9 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
     public static CarController carController;
 
     private bool isEnded = false;
-    private int maxSpeed;
+    [HideInInspector] public int MaxSpeed_Accievement;
+    [HideInInspector] public int KlaxonCount_Accievement;
+    [HideInInspector] public int WiperCount_Accievement;
     private int requiredWiperPressing;
 
     #region Player Input
@@ -89,7 +91,7 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
             if (!isEnded)
             {
                 isEnded = true;
-                print(maxSpeed);
+                print(MaxSpeed_Accievement);
             }
         }
 
@@ -121,7 +123,7 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
         string temp = ((int)tempSpeed).ToString();
         speedInKM.text = new string('0', 6 - temp.Length) + temp;
         // Update max speed
-        if (tempSpeed > maxSpeed) { maxSpeed = (int)tempSpeed; }
+        if (tempSpeed > MaxSpeed_Accievement) { MaxSpeed_Accievement = (int)tempSpeed; }
 
 
         // Update turn signal UI
