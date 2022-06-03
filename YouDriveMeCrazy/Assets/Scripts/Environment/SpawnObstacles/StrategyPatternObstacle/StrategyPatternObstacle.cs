@@ -45,6 +45,7 @@ public class StrategyPatternObstacle : MonoBehaviour
         {
             switch (aEnum)
             {
+                // KlaxonInteractable은 웬만하면 static이랑만 쓰고, 다른 Attribute 쓰지 말기
                 case AttributeEnum.KlaxonInteractable:
                     attributeStartegies.Add((AttributeStartegy)new KlaxonAttributeStartegy());
                     break;

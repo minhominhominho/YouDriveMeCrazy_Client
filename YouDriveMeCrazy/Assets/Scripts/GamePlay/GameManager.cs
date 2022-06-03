@@ -59,10 +59,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     private int isClickedBy = 0; // 0 = no one click button, 1 = master client click button, 2 = participant client click button
     #endregion
 
-    [HideInInspector]public int WiperCount;
-    [HideInInspector]public int KlaxonCount;
-
-
 
 
     void Awake()
