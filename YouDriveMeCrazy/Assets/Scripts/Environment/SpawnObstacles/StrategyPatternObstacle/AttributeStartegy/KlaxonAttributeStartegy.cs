@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KlaxonAttributeStartegy : MonoBehaviour, AttributeStartegy
+public class KlaxonAttributeStartegy : AttributeStartegy
 {
-    public void Excute()
+    public Transform Excute(Transform obstacle)
     {
-
+        return obstacle;
     }
 }

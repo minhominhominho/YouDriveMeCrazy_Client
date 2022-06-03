@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface AttributeStartegy
 {
-    public void Excute();
+    public Transform Excute(Transform obstacle);
 }

@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ForwardMovementStrategy : MonoBehaviour, MovementStartegy
+public class ForwardMovementStrategy : MovementStartegy
 {
-    public void Move(float speed, Vector3 spawnPos, Vector3 destPos)
+    public Transform updateTransform(Transform obstacle, float speed)
     {
-        transform.position += transform.forward * Time.deltaTime * speed;
+        Transform newTransform = obstacle;
+        Vector3 eulerRotation = newTransform.rotation.eulerAngles;
+        newTransform.rotation = Quaternion.Euler(0, eulerRotation.y, 0);
+        newTransform.position += newTransform.forward * speed * Time.deltaTime;
+        return newTransform;
     }
 }

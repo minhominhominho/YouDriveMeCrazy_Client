@@ -1,50 +1,55 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
-public enum ObstacleEnum { Empty, Chicken, Doe, Fox, Horse, Man, Bus, BlueCar, Van, Truck }
-public enum MovementEnum { Empty, Static, ForwardMoving, StaccatoMoving }
-public enum AttributeEnum { Empty, KlaxonInteractable, Jumping, Rotating }
 
 public class ObstacleSpawnManager : MonoBehaviour
 {
-    public GameObject[] allObstacles;           // All Obstacle objects
-    public ObstacleEnum obstacleToBeSpawned;    // The obstacle object to spawn in this area
+    public List<GameObject> allObstacles;           // All Obstacle objects
+    //public ObstacleEnum obstacleToBeSpawned;    // The obstacle object to spawn in this area
     public MovementEnum movementStrategy;       // Movement Strategy
     public AttributeEnum[] attributeStrategy;   // Attribute Strategy
-
-    private GameObject obstaclePrefab;
-    private StrategyPatternObstacle strategyPatternObstacle;
-
 
     public float speed = 5;
     public Transform spawnPos;
     public Transform destPos;
+
+    private GameObject obstaclePrefab;
+    private StrategyPatternObstacle strategyPatternObstacle;
     private bool isSpawned;
 
 
     private void Start()
     {
-        if (obstacleToBeSpawned == ObstacleEnum.Empty)
-        {
-            obstacleToBeSpawned = (ObstacleEnum)Random.Range(1, System.Enum.GetValues(typeof(ObstacleEnum)).Length);
-        }
-        obstaclePrefab = allObstacles[(int)obstacleToBeSpawned - 1];
-        strategyPatternObstacle = obstaclePrefab.GetComponent<StrategyPatternObstacle>();
+        Object[] data = AssetDatabase.LoadAllAssetsAtPath("Assets/Prefabs/GamePlay/SpawnObstacles/Objects");
 
-        switch (movementStrategy)
+        foreach (Object o in data)
         {
-            case MovementEnum.Empty:
-                movementStrategy = (MovementEnum)Random.Range(1, System.Enum.GetValues(typeof(MovementEnum)).Length);
-                break;
-            case MovementEnum.Static:
-                //obstaclePrefab.AddComponent <>
-                break;
-            case MovementEnum.ForwardMoving:
-                break;
-            case MovementEnum.StaccatoMoving:
-                break;
+            allObstacles.Add((GameObject)o);
         }
+
+
+        // if (obstacleToBeSpawned == ObstacleEnum.Empty)
+        // {
+        //     obstacleToBeSpawned = (ObstacleEnum)Random.Range(1, System.Enum.GetValues(typeof(ObstacleEnum)).Length);
+        // }
+        // obstaclePrefab = allObstacles[(int)obstacleToBeSpawned - 1];
+        // strategyPatternObstacle = obstaclePrefab.GetComponent<StrategyPatternObstacle>();
+
+        // switch (movementStrategy)
+        // {
+        //     case MovementEnum.Empty:
+        //         movementStrategy = (MovementEnum)Random.Range(1, System.Enum.GetValues(typeof(MovementEnum)).Length);
+        //         break;
+        //     case MovementEnum.Static:
+        //         //obstaclePrefab.AddComponent <>
+        //         break;
+        //     case MovementEnum.ForwardMoving:
+        //         break;
+        //     case MovementEnum.StaccatoMoving:
+        //         break;
+        // }
 
     }
 

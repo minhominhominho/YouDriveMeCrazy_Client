@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface MovementStartegy
 {
-    public void Move(float speed, Vector3 spawnPos, Vector3 destPos);
+    public Transform updateTransform(Transform obstacle, float speed);
 }

@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StaticMovementStrategy : MonoBehaviour, MovementStartegy
+public class StaticMovementStrategy : MovementStartegy
 {
-    public void Move(float speed, Vector3 spawnPos, Vector3 destPos)
+    public Transform updateTransform(Transform obstacle, float speed)
     {
-
+        return obstacle;
     }
 }

@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class ObstacleTriggerZone : MonoBehaviour
 {
-    private ObstacleSpawnManager obstacleSpawnManager;
+    private StrategyPatternObstacleSpawnManager strategyPatternObstacleSpawnManager;
 
     private void Start()
     {
-        obstacleSpawnManager = this.GetComponentInParent<ObstacleSpawnManager>();  
+        strategyPatternObstacleSpawnManager = this.GetComponentInParent<StrategyPatternObstacleSpawnManager>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Car"))
         {
-            obstacleSpawnManager.SpawnRandomAnimal();
+            strategyPatternObstacleSpawnManager.ActivateObstacleInGame();
         }
     }
 }

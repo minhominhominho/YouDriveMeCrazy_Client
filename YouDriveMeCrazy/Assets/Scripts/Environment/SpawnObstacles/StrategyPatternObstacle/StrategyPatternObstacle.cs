@@ -5,39 +5,89 @@ using UnityEngine;
 public class StrategyPatternObstacle : MonoBehaviour
 {
     private MovementStartegy movementStartegy;
-    private List<AttributeStartegy> attributeStartegies;
+    private List<AttributeStartegy> attributeStartegies = new List<AttributeStartegy>();
+
+    private bool isActivate;
+
+    private float speed;
+    private Transform spawnPos;
+    private Transform destPos;
 
 
-    public bool isSpawned;
-
-    private float speed = 10f;
-    private Vector3 spawnPos;
-    private Vector3 destPos;
-    
-
-    public void setObstacle(float speed, bool isKlaxonInteractable, float time)
+    public void SetObstacleValues(float speed, Transform spawnPos, Transform destPos)
     {
         this.speed = speed;
-        isSpawned = true;
+        this.spawnPos = spawnPos;
+        this.destPos = destPos;
+
+        transform.LookAt(destPos.position, Vector3.up);
+    }
+
+    public void SetMovementStartegy(MovementEnum mEnum)
+    {
+        switch (mEnum)
+        {
+            case MovementEnum.Static:
+                movementStartegy = new StaticMovementStrategy();
+                break;
+            case MovementEnum.ForwardMoving:
+                movementStartegy = new ForwardMovementStrategy();
+                break;
+            case MovementEnum.StaccatoMoving:
+                movementStartegy = new StaccatoMovementStartegy();
+                break;
+        }
+    }
+
+    public void SetAttributeStartegies(List<AttributeEnum> aEnums)
+    {
+        foreach (AttributeEnum aEnum in aEnums)
+        {
+            switch (aEnum)
+            {
+                case AttributeEnum.KlaxonInteractable:
+                    attributeStartegies.Add((AttributeStartegy)new KlaxonAttributeStartegy());
+                    break;
+                case AttributeEnum.Jumping:
+                    attributeStartegies.Add((AttributeStartegy)new JumpingAttributeStartegy());
+                    break;
+                case AttributeEnum.Rotating:
+                    attributeStartegies.Add((AttributeStartegy)new RotatingAttributeStartegy());
+                    break;
+            }
+        }
+    }
+
+    public void ActivateObstacle()
+    {
+        isActivate = true;
     }
 
     void Update()
     {
-        if (isSpawned)
+        if (isActivate)
         {
-            movementStartegy.Move(speed,spawnPos,destPos);
+            Transform newTransform = movementStartegy.updateTransform(transform, speed);
+            transform.position = newTransform.position;
+            transform.rotation = newTransform.rotation;
+
             foreach (AttributeStartegy a in attributeStartegies)
             {
-                a.Excute();
+                newTransform = a.Excute(transform);
+                transform.position = newTransform.position;
+                transform.rotation = newTransform.rotation;
             }
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Car"))
+        if (isActivate)
         {
-            GameManager.Instance.GameOver(GameManager.GameState.KillAnimal);
+            if (collision.collider.CompareTag("Car"))
+            {
+                GameManager.Instance.GameOver(GameManager.GameState.KillAnimal);
+            }
         }
     }
 }
