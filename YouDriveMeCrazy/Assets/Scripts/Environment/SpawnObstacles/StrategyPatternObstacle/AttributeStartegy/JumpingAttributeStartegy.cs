@@ -33,11 +33,11 @@ public class JumpingAttributeStartegy : AttributeStartegy
 
         if (!isReached)
         {
-            newTransform.position += Vector3.up * (jumpingHeight - newTransform.position.y + 0.01f) * 5 * Time.deltaTime;
+            newTransform.position += Vector3.up * (0.05f + (jumpingHeight - obstacle.position.y) / (jumpingHeight - orgHeight)) * 8 * Time.deltaTime;
         }
         else
         {
-            newTransform.position += Vector3.down * (jumpingHeight - newTransform.position.y + 0.01f)* 5 * Time.deltaTime;
+            newTransform.position += Vector3.down * (0.05f + 1 - (jumpingHeight - obstacle.position.y) / (jumpingHeight - orgHeight)) * 8 * Time.deltaTime;
         }
 
         return newTransform;

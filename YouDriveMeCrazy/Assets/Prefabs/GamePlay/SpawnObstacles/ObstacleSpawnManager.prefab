@@ -79,7 +79,8 @@ MonoBehaviour:
   obstaclePrefab: {fileID: 0}
   movementStrategy: 0
   attributeStrategies: 
-  speed: 10
+  isPreCreatedObstacle: 0
+  speed: 3
   spawnPos: {fileID: 6094463960520959785}
   destPos: {fileID: 6094463960667049346}
 --- !u!1 &6094463960667049349

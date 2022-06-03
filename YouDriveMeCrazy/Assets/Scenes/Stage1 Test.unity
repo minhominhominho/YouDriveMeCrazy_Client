@@ -2053,7 +2053,7 @@ PrefabInstance:
       objectReference: {fileID: 9215803475113006296, guid: 72b63379e4d1446e38584f36e0ddea80, type: 3}
     - target: {fileID: 6094463960663692603, guid: 4d534255c24721a4c972a7a0e41ebb5d, type: 3}
       propertyPath: movementStrategy
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6094463960663692603, guid: 4d534255c24721a4c972a7a0e41ebb5d, type: 3}
       propertyPath: isPreCreatedObstacle
