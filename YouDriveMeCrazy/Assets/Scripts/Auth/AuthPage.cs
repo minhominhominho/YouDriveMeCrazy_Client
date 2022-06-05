@@ -24,7 +24,7 @@ public class AuthPage : MonoBehaviour
     // public Text countText;
     // public Text passwordText;
 
-    private const string email = "id";
+    private const string nickname = "id";
     private const string password = "password";
     public GameObject dialogHolder;
     public GameObject nickWaringHolder;
@@ -42,7 +42,7 @@ public class AuthPage : MonoBehaviour
     public class User
     {
         //public int id;
-        public string email;
+        public string nickname;
         public string password;
     }
     IEnumerator LoginCo(){
@@ -52,7 +52,7 @@ public class AuthPage : MonoBehaviour
        Debug.Log(IDinput.text);
        Debug.Log(Passinput.text);
        User loginUser = new User();
-       loginUser.email = IDinput.text;
+       loginUser.nickname = IDinput.text;
        loginUser.password = Passinput.text;
        string userJson = JsonUtility.ToJson(loginUser);
        Debug.Log(userJson);
@@ -69,7 +69,7 @@ public class AuthPage : MonoBehaviour
         Debug.Log(textt);
         if(textt.Equals("true")){
             SceneManager.LoadScene("Title");
-            SavingData.myName = loginUser.email;
+            SavingData.myName = loginUser.nickname;
            // Debug.Log(SavingData.myName);
             //게임매니져 변수에 접근해서 저장하기
         }else{
@@ -79,7 +79,7 @@ public class AuthPage : MonoBehaviour
         
         
        // User user = JsonUtility.FromJson<User>(textt);
-        //Debug.Log(user.email);
+        //Debug.Log(user.nickname);
 
     }
     IEnumerator CreateCo(){
@@ -88,11 +88,11 @@ public class AuthPage : MonoBehaviour
        Debug.Log(NewIDinput.text);
        Debug.Log(NewPassinput.text);
     //    WWWForm form = new WWWForm();
-    //     form.AddField(email, NewIDinput.text);
+    //     form.AddField(nickname, NewIDinput.text);
     //     form.AddField(password, NewPassinput.text);
     User createUser = new User(); 
         //createUser.id = 15;
-       createUser.email = NewIDinput.text;
+       createUser.nickname = NewIDinput.text;
        createUser.password = NewPassinput.text;
        string createUserJson = JsonUtility.ToJson(createUser);
 
