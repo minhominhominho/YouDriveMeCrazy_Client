@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3426,9 +3426,41 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1374061564057587025, guid: e4702b994eb17c3468ba98b68bc5f593, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2416392545258016540, guid: e4702b994eb17c3468ba98b68bc5f593, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2660297319787266458, guid: e4702b994eb17c3468ba98b68bc5f593, type: 3}
+      propertyPath: m_fontSize
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2660297319787266458, guid: e4702b994eb17c3468ba98b68bc5f593, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 3416493340423848295, guid: e4702b994eb17c3468ba98b68bc5f593, type: 3}
       propertyPath: sceneViewId
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3533903146001915379, guid: e4702b994eb17c3468ba98b68bc5f593, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3533903146001915379, guid: e4702b994eb17c3468ba98b68bc5f593, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3660538983579938540, guid: e4702b994eb17c3468ba98b68bc5f593, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 3660538983579938540, guid: e4702b994eb17c3468ba98b68bc5f593, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 4000718193191058576, guid: e4702b994eb17c3468ba98b68bc5f593, type: 3}
       propertyPath: m_RootOrder
@@ -3490,7 +3522,27 @@ PrefabInstance:
       propertyPath: speaker
       value: 
       objectReference: {fileID: 1504024114}
+    - target: {fileID: 4590778978972925819, guid: e4702b994eb17c3468ba98b68bc5f593, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5342204976281897591, guid: e4702b994eb17c3468ba98b68bc5f593, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 350
+      objectReference: {fileID: 0}
+    - target: {fileID: 5342204976281897591, guid: e4702b994eb17c3468ba98b68bc5f593, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5771036954010776207, guid: e4702b994eb17c3468ba98b68bc5f593, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7871140077425235303, guid: e4702b994eb17c3468ba98b68bc5f593, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153787170367518079, guid: e4702b994eb17c3468ba98b68bc5f593, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
