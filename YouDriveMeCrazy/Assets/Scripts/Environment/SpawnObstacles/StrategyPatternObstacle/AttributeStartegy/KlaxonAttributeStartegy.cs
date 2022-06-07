@@ -35,6 +35,11 @@ public class KlaxonAttributeStartegy : AttributeStartegy
                     if (klaxonPressingTime > klaxonRequiredTime)
                     {
                         isInteracted = true;
+                        try
+                        {
+                            obstacle.GetComponent<Animator>().SetBool("isRun", true);
+                        }
+                        catch { }
                         CarController.carController.KlaxonCount_Accievement += 1;
                     }
                 }
