@@ -34,7 +34,7 @@ public class AchievementManager : MonoBehaviour
         AchievementItem conqueror = conquerorGameObject.GetComponent<AchievementItem>();
         AchievementItem bestDriver = bestDriverGameObject.GetComponent<AchievementItem>();
 
-        if (true)
+        if (false)
         {
             honour.On();
             serialKiller.On();
@@ -59,7 +59,7 @@ public class AchievementManager : MonoBehaviour
                 if(dto.PedestrianKill) roadkillMaster.On();
                 if(dto.CarAccident) troubleMaker.On();
                 if(dto.IllegalLaneChange) outlow.On();
-                if(dto.SignalViolatio) worstDriver.On();
+                if(dto.SignalViolation) worstDriver.On();
                 if(dto.CenterLineViolation) touchDown.On();
                 if(dto.OffPath) lostSheep.On();
                 if(dto.MaxSpeed) racer.On();
