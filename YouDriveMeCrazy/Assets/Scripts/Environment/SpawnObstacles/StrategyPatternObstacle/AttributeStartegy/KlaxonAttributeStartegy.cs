@@ -6,7 +6,7 @@ public class KlaxonAttributeStartegy : AttributeStartegy
 {
     private Transform car;
 
-    private const float klaxonDistance = 10;
+    private const float klaxonDistance = 15;
     private const float klaxonRequiredTime = 3;
     private const float runsAwaySpeed = 5;
 
@@ -26,7 +26,7 @@ public class KlaxonAttributeStartegy : AttributeStartegy
 
         if (!isInteracted)
         {
-            if (Vector3.Distance(obstacle.position, obstacle.position) < klaxonDistance)
+            if (Vector3.Distance(CarController.carController.transform.position, obstacle.position) < klaxonDistance)
             {
                 if (CarController.carController.isKlaxonPressing)
                 {

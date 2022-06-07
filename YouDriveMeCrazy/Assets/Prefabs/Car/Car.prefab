@@ -735,7 +735,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6946875041595037230}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 13.18, y: 0, z: 104.66}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 9043841523500238326}
@@ -758,6 +758,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2fbe3bb4f45984eb1546cfd11c2fca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxSpeed_Accievement: 0
+  KlaxonCount_Accievement: 0
+  WiperCount_Accievement: 0
   isBreakPressing: 0
   isLeftTurnPressing: 0
   isRightTurnSignalPressing: 0
@@ -767,11 +770,6 @@ MonoBehaviour:
   isLeftTurnSignalPressing: 0
   isWiperPressing: 0
   keyMomentum: 3
-  sfxSpeaker: {fileID: 0}
-  breakSound: {fileID: 8300000, guid: a55f37a63e5123849a2d1c0094bee8ad, type: 3}
-  klaxonSound: {fileID: 8300000, guid: ce4837531c5ba7c42a2bc7df49178ca7, type: 3}
-  wiperSound: {fileID: 8300000, guid: d60bbc1b563caac4389c8cef5f972453, type: 3}
-  throwDirtSound: {fileID: 8300000, guid: aa83a269f1258e441803907f4871ea22, type: 3}
   speedIndicatorArrow: {fileID: 4956207013840056774}
   speedInKM: {fileID: 1598010267406498611}
   rTurnSignalUI: {fileID: 6585181772602701504}
