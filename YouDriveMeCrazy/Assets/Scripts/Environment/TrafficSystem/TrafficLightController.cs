@@ -9,7 +9,7 @@ public class TrafficLightController : MonoBehaviour
     [SerializeField] private GameObject redLight;
     [SerializeField] private GameObject yellowLight;
     [SerializeField] private GameObject greenLight;
-    
+
 
     [Header("Cycle Time")]
     [SerializeField] private float redLightTime = 10f;
@@ -18,65 +18,87 @@ public class TrafficLightController : MonoBehaviour
 
     private BoxCollider sensingArea;
 
+    public bool isRandom;
     private bool isRedLight = false;
     private bool isWorking = true;
 
     private float timer;
-    private float totalTime;
+
+    private const float updatingTime = 0.01f;
+
 
     void Start()
     {
         sensingArea = GetComponent<BoxCollider>();
         sensingArea.enabled = false;
 
-        redLight.SetActive(false);
+        redLight.SetActive(true);
         yellowLight.SetActive(false);
         greenLight.SetActive(false);
 
-        totalTime = redLightTime + yellowLightTime + greenLightTime;
+        isRedLight = true;
+        sensingArea.enabled = true;
 
-        StartCoroutine(Timer());
+        if (isRandom)
+        {
+            StartCoroutine(Timer());
+        }
     }
 
 
     // by 상민, If car cross the reference line on a red light, colliding is detected    
-    private void OnTriggerEnter(Collider other) {
-        if(other.tag == "Car" && isRedLight){
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Car" && isRedLight)
+        {
             isWorking = false;
             GameManager.Instance.GameOver(GameManager.GameState.TrafficLightViolation);
         }
     }
 
-    // by 상민, red,yellow,greenLightTime에 따라 신호등 동작, green->yellow->red 순으로 바뀜 
-    IEnumerator Timer(){
-        timer = 0f;
-
-        //turn on green light
-        redLight.SetActive(false);
-        greenLight.SetActive(true);
-        isRedLight = false;
-        sensingArea.enabled = false;
-
-        while(timer < totalTime){
-            timer += Time.deltaTime;
-            
-            if(timer > greenLightTime && timer < greenLightTime+yellowLightTime) {
-                // turn on yellow light
-                greenLight.SetActive(false);
-                yellowLight.SetActive(true);
-            }
-            else if (timer > greenLightTime+yellowLightTime){
-                //turn on red light
-                yellowLight.SetActive(false);
-                redLight.SetActive(true);
-                isRedLight = true;
-                sensingArea.enabled = true;
-            }
-
-            yield return null;  
-        }
-        if(isWorking) StartCoroutine(Timer());
+    public void TriggerTrafficLight()
+    {
+        StartCoroutine(Timer());
     }
 
+    // by 상민, red,yellow,greenLightTime에 따라 신호등 동작, green->yellow->red 순으로 바뀜 
+    IEnumerator Timer()
+    {
+        timer = 0f;
 
+        while (isWorking)
+        {
+            timer += updatingTime;
+
+            if (timer >= redLightTime)
+            {
+                redLight.SetActive(false);
+                greenLight.SetActive(true);
+                yellowLight.SetActive(false);
+
+                isRedLight = false;
+                sensingArea.enabled = false;
+            }
+            else if (timer >= redLightTime + greenLightTime)
+            {
+                redLight.SetActive(value: false);
+                greenLight.SetActive(false);
+                yellowLight.SetActive(true);
+
+
+            }
+            else if (timer >= redLightTime + greenLightTime + yellowLightTime)
+            {
+                redLight.SetActive(true);
+                greenLight.SetActive(false);
+                yellowLight.SetActive(false);
+
+                isRedLight = true;
+                sensingArea.enabled = true;
+                timer = 0;
+            }
+            yield return new WaitForSeconds(updatingTime);
+        }
+        yield return null;
+    }
 }
