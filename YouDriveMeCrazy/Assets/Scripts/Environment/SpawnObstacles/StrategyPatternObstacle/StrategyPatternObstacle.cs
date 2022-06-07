@@ -78,6 +78,8 @@ public class StrategyPatternObstacle : MonoBehaviour
                 transform.position = newTransform.position;
                 transform.rotation = newTransform.rotation;
             }
+
+
         }
     }
 
