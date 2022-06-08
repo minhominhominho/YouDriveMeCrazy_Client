@@ -101,5 +101,26 @@ namespace Api
                    " " + offPath + " " + maxSpeed + " " + wiperCount + " " + klaxonCount +
                    " " + clearCount + " " + minClearTime + " " + achievementCount;
         }
+
+        public int GetCount()
+        {
+            int sum = 0;
+
+            if (animalKill) sum++;
+            if (pedestrianKill) sum++;
+            if (carAccident) sum++;
+            if (illegalLaneChange) sum++;
+            if (signalViolation) sum++;
+            if (centerLineViolation) sum++;
+            if (offPath) sum++;
+            if (maxSpeed) sum++;
+            if (wiperCount) sum++;
+            if (klaxonCount) sum++;
+            if (clearCount) sum++;
+            if (minClearTime) sum++;
+            if (achievementCount) sum++;
+
+            return sum;
+        }
     }
 }
