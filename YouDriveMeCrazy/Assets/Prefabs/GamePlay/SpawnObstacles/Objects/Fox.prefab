@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 775971452298961949}
   m_Layer: 0
   m_Name: Fox
-  m_TagString: Untagged
+  m_TagString: AnimalObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

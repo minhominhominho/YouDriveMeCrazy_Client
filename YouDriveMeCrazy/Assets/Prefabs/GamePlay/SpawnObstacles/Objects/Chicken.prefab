@@ -1277,7 +1277,7 @@ GameObject:
   - component: {fileID: 8919331516574763241}
   m_Layer: 0
   m_Name: Chicken
-  m_TagString: Untagged
+  m_TagString: AnimalObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

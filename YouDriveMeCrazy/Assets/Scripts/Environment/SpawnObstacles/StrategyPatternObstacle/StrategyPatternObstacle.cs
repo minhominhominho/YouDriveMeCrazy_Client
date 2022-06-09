@@ -78,8 +78,6 @@ public class StrategyPatternObstacle : MonoBehaviour
                 transform.position = newTransform.position;
                 transform.rotation = newTransform.rotation;
             }
-
-
         }
     }
 
@@ -89,7 +87,19 @@ public class StrategyPatternObstacle : MonoBehaviour
         {
             if (collision.collider.CompareTag("Car"))
             {
-                GameManager.Instance.GameOver(GameManager.GameState.KillAnimal);
+                if (this.transform.tag == "AnimalObstacle")
+                {
+                    GameManager.Instance.GameOver(GameManager.GameState.KillAnimal);
+                }
+                else if (this.transform.tag == "CarObstacle")
+                {
+                    GameManager.Instance.GameOver(GameManager.GameState.HitCar);
+                }
+                else if (this.transform.tag == "HumanObstacle")
+                {
+                    GameManager.Instance.GameOver(GameManager.GameState.KillPeople);
+                }
+
             }
         }
     }

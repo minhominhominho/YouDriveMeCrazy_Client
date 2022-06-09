@@ -996,7 +996,7 @@ GameObject:
   - component: {fileID: 6894013395885092678}
   m_Layer: 0
   m_Name: Man
-  m_TagString: Untagged
+  m_TagString: HumanObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

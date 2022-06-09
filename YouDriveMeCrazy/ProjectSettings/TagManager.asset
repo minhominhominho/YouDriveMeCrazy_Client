@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Car
+  - AnimalObstacle
+  - HumanObstacle
+  - CarObstacle
   layers:
   - Default
   - TransparentFX
