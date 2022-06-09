@@ -145,7 +145,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         string playerName = PhotonNetwork.IsMasterClient ? SavingData.player1Name : SavingData.player2Name;
         StartCoroutine(Api.Api.Record(new RecordDto(playerName, (int)gameState, CarController.carController.MaxSpeed_Accievement,
             CarController.carController.WiperCount_Accievement, CarController.carController.KlaxonCount_Accievement, 
-            float.Parse(SavingData.timeReocrd)), dto =>
+             gameState == GameState.GameClear ? float.Parse(SavingData.timeReocrd) : 3600f), dto =>
         {
             // by 상연,
             // 어떤 업적이 완료되었는 지 검사 후 화면에 표시
@@ -153,6 +153,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             if (count > 0)
             {
+                newAchievementText.enabled = true;
                 newAchievementText.text = count + " New Achievements!";
             }
         }));
