@@ -125,6 +125,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Pause();
         }
+
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            StageClear();
+        }
     }
 
     void initializeSavingData(){
@@ -237,19 +242,21 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         int minute = (int)currentStageClearTime / 60;
         int second = (int)currentStageClearTime % 60;
-        clearTimeText.text = $"Clear Time :  {minute} : {second}";
+        clearTimeText.text = $"Clear Time   {minute} : {second}";
     }
 
     public IEnumerator CallGameClear()
     {
         yield return new WaitForSeconds(3f);
-        if (gameClearPanel != null)
-        { gameClearPanel.SetActive(true); }
-
+        SoundManager.Instance.PlayGameSfx(GameSfx.stageClear);
+        if (gameClearPanel != null) {gameClearPanel.SetActive(true); }
+        yield return new WaitForSeconds(3f);
+        if (gameClearPanel != null) {gameClearPanel.transform.Find("GameClearStory").gameObject.SetActive(false); }
         int minute = (int)currentStageClearTime / 60;
         int second = (int)currentStageClearTime % 60;
-        finalClearTimeText.text = $"Clear Time :  {minute} : {second}";
+        finalClearTimeText.text = $"Clear Time   {minute} : {second}";
     }
+
 
     public IEnumerator CallGameOver(GameState gameState)
     {

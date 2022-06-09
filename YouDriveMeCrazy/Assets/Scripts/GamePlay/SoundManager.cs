@@ -52,7 +52,8 @@ public class SoundManager : MonoBehaviour
     public void PlayBgm(BGM bgmNum)
     {
         bgmSpeaker.loop = true;
-        bgmSpeaker.PlayOneShot(bgm[(int)bgmNum]);
+        bgmSpeaker.clip = bgm[(int)bgmNum];
+        bgmSpeaker.Play();
     }
     public void PlayGameSfx(GameSfx sfxNum)
     {
