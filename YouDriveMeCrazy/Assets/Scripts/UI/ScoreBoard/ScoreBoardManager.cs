@@ -19,9 +19,7 @@ public class ScoreBoardManager : MonoBehaviour
     #endregion
     
     void Start()
-    {
-        SoundManager.Instance.PlayBgm(BGM.titleBgm);
-        
+    {   
         StartCoroutine(Api.Api.LoadScores((data) =>
         {
             print(data.Length);

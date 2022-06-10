@@ -40,7 +40,7 @@ AudioSource:
   m_GameObject: {fileID: 1963619144976502577}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -6761831125912440496, guid: bc7d49ff72aad534899c7f3f9df5ac4a, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -167,7 +167,7 @@ AudioSource:
   m_GameObject: {fileID: 7969518816499753322}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -4693039597004457321, guid: bc7d49ff72aad534899c7f3f9df5ac4a, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -305,6 +305,9 @@ MonoBehaviour:
   gameSfxSpeaker: {fileID: 1015905385240444133}
   carSfxSpeaker: {fileID: 7969518817565026698}
   obstacleSfxSpeaker: {fileID: 6869627024209344429}
+  masterMixer: {fileID: 24100000, guid: bc7d49ff72aad534899c7f3f9df5ac4a, type: 2}
+  bgmAudioSlider: {fileID: 0}
+  sfxAudioSlider: {fileID: 0}
   bgm:
   - {fileID: 8300000, guid: e7dcf7a391cc6054fb00cc2668ff8e7c, type: 3}
   - {fileID: 0}
@@ -364,7 +367,7 @@ AudioSource:
   m_GameObject: {fileID: 7969518817565026700}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -6761831125912440496, guid: bc7d49ff72aad534899c7f3f9df5ac4a, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -491,7 +494,7 @@ AudioSource:
   m_GameObject: {fileID: 8792486092480315871}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -6761831125912440496, guid: bc7d49ff72aad534899c7f3f9df5ac4a, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1

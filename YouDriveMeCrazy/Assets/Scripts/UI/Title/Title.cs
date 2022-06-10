@@ -17,12 +17,13 @@ public class Title : MonoBehaviour
     void Start()
     {
         // SceneManager.LoadScene("Test");
-
         mainMenuHolder.SetActive(true);
         optionMenuHolder.SetActive(false);
         scoreMenuHolder.SetActive(false);
         TutorialHolder.SetActive(false);
         AchievementHolder.SetActive(false);
+
+        SoundManager.Instance.PlayBgm(BGM.titleBgm);
     }
     void Update()
     {
@@ -60,7 +61,7 @@ public class Title : MonoBehaviour
         TutorialHolder.SetActive(true);
         AchievementHolder.SetActive(false);
     }
-    
+
     // tmp
     public void AchievementMenu()
     {
@@ -70,7 +71,7 @@ public class Title : MonoBehaviour
         TutorialHolder.SetActive(false);
         AchievementHolder.SetActive(true);
     }
-    
+
     public void LoadGame()
     {
         SceneManager.LoadScene(SceneToLoad);
