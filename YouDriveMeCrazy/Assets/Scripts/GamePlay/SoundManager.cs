@@ -116,7 +116,7 @@ public class SoundManager : MonoBehaviour
     {
         float sound = sfxAudioSlider.value;
         //슬라이더 미니멈 값을 -40으로 설정해놔서(그 이하로 내려가면 깨진대)슬라이더로 -40가면 완전 뮤트로 만들라고
-        if (sound == -80f) masterMixer.SetFloat("SFX", -80);
+        if (sound == -40f) masterMixer.SetFloat("SFX", -80);
         else masterMixer.SetFloat("SFX", sound);
     }
 
