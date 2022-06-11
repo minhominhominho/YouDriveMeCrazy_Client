@@ -23,6 +23,11 @@ public class StrategyPatternObstacleSpawnManager : MonoBehaviour
 
     private void Awake()
     {
+        SetObstacle();
+    }
+
+    private void SetObstacle()
+    {
         // 장애물 생성, parent를 StrategyPatternObstacleSpawnManager로 지정
         GameObject obstacle;
         obstacle = Instantiate(obstaclePrefab, spawnPos.position, Quaternion.identity);

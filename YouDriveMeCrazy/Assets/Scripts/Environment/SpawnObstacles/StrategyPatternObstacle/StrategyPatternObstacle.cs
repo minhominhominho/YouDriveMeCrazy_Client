@@ -68,16 +68,26 @@ public class StrategyPatternObstacle : MonoBehaviour
     {
         if (isActivate)
         {
-            Transform newTransform = movementStartegy.updateTransform(transform, speed);
+            updateMovement();
+            updateAttribute();
+        }
+    }
+
+    private void updateMovement()
+    {
+        Transform newTransform = movementStartegy.updateTransform(transform, speed);
+        transform.position = newTransform.position;
+        transform.rotation = newTransform.rotation;
+    }
+
+    private void updateAttribute()
+    {
+        Transform newTransform;
+        foreach (AttributeStartegy a in attributeStartegies)
+        {
+            newTransform = a.Excute(transform);
             transform.position = newTransform.position;
             transform.rotation = newTransform.rotation;
-
-            foreach (AttributeStartegy a in attributeStartegies)
-            {
-                newTransform = a.Excute(transform);
-                transform.position = newTransform.position;
-                transform.rotation = newTransform.rotation;
-            }
         }
     }
 
