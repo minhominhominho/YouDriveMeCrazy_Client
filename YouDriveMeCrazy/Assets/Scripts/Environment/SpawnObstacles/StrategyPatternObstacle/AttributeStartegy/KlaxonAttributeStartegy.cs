@@ -6,7 +6,7 @@ public class KlaxonAttributeStartegy : AttributeStartegy
 {
     private Transform car;
 
-    private const float klaxonDistance = 15;
+    private const float klaxonDistance = 25;
     private const float klaxonRequiredTime = 3;
     private const float runsAwaySpeed = 5;
 
