@@ -190,7 +190,7 @@ namespace Photon
                     SavingData.player1Name = playerList[0].NickName;
                     //SavingData.player2Name = playerList[1].NickName;
                     SavingData.presentStageNum = 1;
-                    PhotonNetwork.LoadLevel(2);
+                    PhotonNetwork.LoadLevel(3);
                 }
 
                 if (PhotonNetwork.CurrentRoom.PlayerCount == 2 || Cheat.cheatMode)
@@ -207,7 +207,7 @@ namespace Photon
                     }
                     SavingData.presentStageNum = 1;
                     SavingData.timeReocrd = "0";
-                    PhotonNetwork.LoadLevel(2);
+                    PhotonNetwork.LoadLevel(3);
                 }
                 else
                 {
