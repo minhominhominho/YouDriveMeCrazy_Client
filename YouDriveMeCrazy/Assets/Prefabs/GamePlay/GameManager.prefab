@@ -1239,8 +1239,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameStroyPanelController, Assembly-CSharp
+      - m_Target: {fileID: 4267454981026495916}
+        m_TargetAssemblyTypeName: GameStoryPanelController, Assembly-CSharp
         m_MethodName: TurnOffStory
         m_Mode: 1
         m_Arguments:
@@ -2521,9 +2521,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4000718193191058579}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: GameStart
+      - m_Target: {fileID: 4267454981026495916}
+        m_TargetAssemblyTypeName: GameStoryPanelController, Assembly-CSharp
+        m_MethodName: TurnOffStory
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2763,6 +2763,7 @@ MonoBehaviour:
   clearTimeText: {fileID: 2713311639994386761}
   finalClearTimeText: {fileID: 2660297319787266458}
   gameOverReasonText: {fileID: 3643562031532713284}
+  isGamePause: 0
 --- !u!114 &4000718193191058578
 MonoBehaviour:
   m_ObjectHideFlags: 0
