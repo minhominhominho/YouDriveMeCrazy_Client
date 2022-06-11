@@ -80,7 +80,7 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
 
     void Update()
     {
-        if (!GameManager.Instance.isGameEnd)
+        if (!GameManager.Instance.isGameEnd && !GameManager.Instance.isGamePause)
         {
             updateSfx();
             calculateMovementInput();
@@ -97,62 +97,64 @@ public class CarController : MonoBehaviourPunCallbacks//, IPunObservable
             }
         }
 
-        updateUI();
+        //updateUI();
         updateSpeedIndicator();
     }
 
 
 
     // Will be deleted later
-    private void updateUI()
-    {
-        if (isBreakPressing) { breakUI.color = Color.red; } else { breakUI.color = Color.black; }
-        if (isLeftTurnPressing) { leftTurnUI.color = Color.red; } else { leftTurnUI.color = Color.black; }
-        if (isRightTurnSignalPressing) { rightTurnSignalUI.color = Color.red; } else { rightTurnSignalUI.color = Color.black; }
-        if (isKlaxonPressing) { klaxonUI.color = Color.red; } else { klaxonUI.color = Color.black; }
+    // private void updateUI()
+    // {
+    //     if (isBreakPressing) { breakUI.color = Color.red; } else { breakUI.color = Color.black; }
+    //     if (isLeftTurnPressing) { leftTurnUI.color = Color.red; } else { leftTurnUI.color = Color.black; }
+    //     if (isRightTurnSignalPressing) { rightTurnSignalUI.color = Color.red; } else { rightTurnSignalUI.color = Color.black; }
+    //     if (isKlaxonPressing) { klaxonUI.color = Color.red; } else { klaxonUI.color = Color.black; }
 
-        if (isAccelPressing) { accelUI.color = Color.red; } else { accelUI.color = Color.black; }
-        if (isRightTurnPressing) { rightTurnUI.color = Color.red; } else { rightTurnUI.color = Color.black; }
-        if (isLeftTurnSignalPressing) { leftTurnSignalUI.color = Color.red; } else { leftTurnSignalUI.color = Color.black; }
-        if (isWiperPressing) { wiperUI.color = Color.red; } else { wiperUI.color = Color.black; }
-    }
+    //     if (isAccelPressing) { accelUI.color = Color.red; } else { accelUI.color = Color.black; }
+    //     if (isRightTurnPressing) { rightTurnUI.color = Color.red; } else { rightTurnUI.color = Color.black; }
+    //     if (isLeftTurnSignalPressing) { leftTurnSignalUI.color = Color.red; } else { leftTurnSignalUI.color = Color.black; }
+    //     if (isWiperPressing) { wiperUI.color = Color.red; } else { wiperUI.color = Color.black; }
+    // }
 
     private void updateSfx()
     {
-        // 아래 빈칸들에 각각 소리 재생 넣기
-        if (!wasBreakPressing && isBreakPressing) { }
-        if (!wasLeftTurnPressing && isLeftTurnPressing) { }
-        if (!wasRightTurnSignalPressing && isRightTurnSignalPressing) { }   // 딸깍 소리 재생하면 될듯
-        if (!wasKlaxonPressing && isKlaxonPressing) { }
-
-        // if (!wasAccelPressing && isAccelPressing) { }   
-        if (!wasRightTurnPressing && isRightTurnPressing) { }
-        if (!wasLeftTurnSignalPressing && isLeftTurnSignalPressing) { }
-        if (!wasWiperPressing && isWiperPressing) { }
-
-
-        // 악셀은 사운드매니저에 따로 오디오소스를 만드는게 좋을듯
-        // 항상 소리가 나는데, accelVolume에 따라 소리 크기가 달라지게
-        float accelVolume = rb.velocity.magnitude * 10;
-        accelVolume = Mathf.Clamp(accelVolume, 0, 1);
-        // 여기에 소리 넣기
-
-
-        // 클락션도 사운드매니저에 따로 오디오소스를 만드는게 좋을듯
-        // 다른건 버튼 다운 됐을때 한번 재생하면 끝인데 클락션은 누르고있는동안은 계속 소리나다가 떼는 순간 바로 소리가 꺼져야함
-        if (!isKlaxonPressing)
+        if (!wasBreakPressing && isBreakPressing)
         {
-            // 클락션 소리 끄기
+            SoundManager.Instance.PlayBreak();
+        }
+        if (!wasRightTurnSignalPressing && isRightTurnSignalPressing)
+        {
+            SoundManager.Instance.PlayTurnSignal();
+        }
+        if (!wasLeftTurnSignalPressing && isLeftTurnSignalPressing)
+        {
+            SoundManager.Instance.PlayTurnSignal();
+        }
+        if (!wasKlaxonPressing && isKlaxonPressing)
+        {
+            SoundManager.Instance.PlayKlaxon();
+        }
+        if (!wasWiperPressing && isWiperPressing)
+        {
+            SoundManager.Instance.PlayWiper();
         }
 
-        wasBreakPressing = isBreakPressing;
-        wasLeftTurnPressing = isLeftTurnPressing;
-        wasRightTurnSignalPressing = isRightTurnSignalPressing;
-        wasKlaxonPressing = isKlaxonPressing;
 
-        wasBreakPressing = isAccelPressing;
-        wasRightTurnPressing = isRightTurnPressing;
+        if (!isKlaxonPressing)
+        {
+            SoundManager.Instance.StopKlaxon();
+        }
+        if (!isRightTurnSignalPressing && !isLeftTurnSignalPressing)
+        {
+            SoundManager.Instance.StopTurnSignal();
+        }
+
+
+        wasBreakPressing = isBreakPressing;
+        wasRightTurnSignalPressing = isRightTurnSignalPressing;
         wasLeftTurnSignalPressing = isLeftTurnSignalPressing;
+        wasKlaxonPressing = isKlaxonPressing;
         wasWiperPressing = isWiperPressing;
     }
 

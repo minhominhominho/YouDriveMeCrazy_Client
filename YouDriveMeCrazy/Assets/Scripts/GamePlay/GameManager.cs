@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public bool isGameStart { get; set; }
     public bool isGameEnd { get; private set; }
-    private bool isGamePause = false;
+    public bool isGamePause = false;
     private float currentStageClearTime = 0;
     private int isClickedBy = 0; // 0 = no one click button, 1 = master client click button, 2 = participant client click button
     #endregion
@@ -132,7 +132,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    void initializeSavingData(){
+    void initializeSavingData()
+    {
         SavingData.player1Name = "";
         SavingData.player2Name = "";
         SavingData.presentStageNum = 0;
@@ -144,7 +145,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         string playerName = PhotonNetwork.IsMasterClient ? SavingData.player1Name : SavingData.player2Name;
         StartCoroutine(Api.Api.Record(new RecordDto(playerName, (int)gameState, CarController.carController.MaxSpeed_Accievement,
-            CarController.carController.WiperCount_Accievement, CarController.carController.KlaxonCount_Accievement, 
+            CarController.carController.WiperCount_Accievement, CarController.carController.KlaxonCount_Accievement,
              gameState == GameState.GameClear ? float.Parse(SavingData.timeReocrd) : 3600f), dto =>
         {
             // by 상연,
@@ -223,7 +224,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             print("GameOver");
             isGameEnd = true;
-            
+
             SoundManager.Instance.PlayGameSfx(GameSfx.police);
 
             currentStageClearTime = 0;
@@ -249,9 +250,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         yield return new WaitForSeconds(3f);
         SoundManager.Instance.PlayGameSfx(GameSfx.stageClear);
-        if (gameClearPanel != null) {gameClearPanel.SetActive(true); }
+        if (gameClearPanel != null) { gameClearPanel.SetActive(true); }
         yield return new WaitForSeconds(3f);
-        if (gameClearPanel != null) {gameClearPanel.transform.Find("GameClearStory").gameObject.SetActive(false); }
+        if (gameClearPanel != null) { gameClearPanel.transform.Find("GameClearStory").gameObject.SetActive(false); }
         int minute = (int)currentStageClearTime / 60;
         int second = (int)currentStageClearTime % 60;
         finalClearTimeText.text = $"Clear Time   {minute} : {second}";
@@ -309,6 +310,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.CurrentRoom.PlayerCount == 2 || Cheat.cheatMode)
         {
+
             PhotonView photonView = PhotonView.Get(this);
             if (PhotonNetwork.IsMasterClient) { photonView.RPC("SyncPause", RpcTarget.All, 1); }
             else { photonView.RPC("SyncPause", RpcTarget.All, 2); }
@@ -373,7 +375,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         MatchSavingData();
     }
 
-    public void MainMenu(){
+    public void MainMenu()
+    {
         Time.timeScale = 1;
         if (PhotonNetwork.IsMasterClient)
         {
@@ -395,6 +398,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void SyncPause(int isClickedBy)
     {
         this.isClickedBy = isClickedBy;
+        isGamePause = true;
+        SoundManager.Instance.StopSfx();
         Time.timeScale = 0;
         gamePlayPanel.SetActive(false);
         gameOptionPanel.SetActive(true);
@@ -404,6 +409,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void SyncResume()
     {
         Time.timeScale = 1;
+        isGamePause = false;
         gamePlayPanel.SetActive(true);
         gameOptionPanel.SetActive(false);
         isClickedBy = 0;
@@ -413,7 +419,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SyncNextStage()
     {
-        SoundManager.Instance.Stop(Type.all);
+        SoundManager.Instance.StopAll();
         PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer.ActorNumber);
         PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
     }
@@ -422,7 +428,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SyncRestartStage()
     {
-        SoundManager.Instance.Stop(Type.all);
+        SoundManager.Instance.StopAll();
         PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer.ActorNumber);
         PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().name);
     }
@@ -432,7 +438,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void SyncLeaveStage()
     {
         initializeSavingData();
-        SoundManager.Instance.Stop(Type.all);
+        SoundManager.Instance.StopAll();
         PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer.ActorNumber);
         PhotonNetwork.LoadLevel("WaitingRoom");
     }
@@ -441,7 +447,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void SyncMainMenu()
     {
         initializeSavingData();
-        SoundManager.Instance.Stop(Type.all);
+        SoundManager.Instance.StopAll();
         PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer.ActorNumber);
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene("Title");
