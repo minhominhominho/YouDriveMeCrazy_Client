@@ -128,7 +128,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            StageClear();
+            if (PhotonNetwork.IsMasterClient)
+            {
+                if (PhotonNetwork.CurrentRoom.PlayerCount == 2 || Cheat.cheatMode)
+                {
+                    PhotonView photonView = PhotonView.Get(this);
+                    photonView.RPC("SyncGameOver", RpcTarget.All);
+                }
+            }
         }
     }
 
@@ -413,6 +420,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         gamePlayPanel.SetActive(true);
         gameOptionPanel.SetActive(false);
         isClickedBy = 0;
+    }
+
+    [PunRPC]
+    private void SyncGameOver()
+    {
+        StageClear();
     }
 
     // by 상민, 새로운 씬 로드하기 전 현재 오브젝트 제거
